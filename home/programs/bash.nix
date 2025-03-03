@@ -6,7 +6,7 @@
 		enable = true;
 		shellAliases = 
 		let
-			flakePath = "~/nix";
+			flakePath = "~/nixos-config";
 		in {
 			rebuild = "sudo nixos-rebuild switch --flake ${flakePath}";
 			hms = "home-manager switch --flake ${flakePath}";

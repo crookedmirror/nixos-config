@@ -2,7 +2,10 @@
 	programs.librewolf = {
 		enable = true;
 		settings = {
-			"webgl.disabled" = true;
+			"privacy.sanityze.sanityzeOnShutdown" = false;
+			"privacy.clearOnShutdown_v2.cache" = false;
+			"privacy.clearOnShutdown_v2.cookiesAndStorage" = false;
+			
 		};
 		profiles.default.extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
 			localcdn

@@ -13,7 +13,5 @@
 		./git.nix
 		./bash.nix
 		./librewolf.nix
-		./gaming.nix
-		#./hyprland
 	];
 }

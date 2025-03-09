@@ -1,7 +1,7 @@
 {
-	imports = [
-		./kernel.nix
-		./hyprland.nix
-		./gaming.nix
-	];
+  imports = [
+    ./kernel.nix
+    ./hyprland.nix
+    ./gaming.nix
+  ];
 }

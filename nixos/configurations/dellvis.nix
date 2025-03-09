@@ -1,11 +1,16 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware/dellvis.nix
-      ../modules
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware/dellvis.nix
+    ../modules
+  ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -16,10 +21,16 @@
   services.desktopManager.plasma6.enable = true;
   services.displayManager.sddm.enable = true;
 
-  nix.settings.experimental-features = ["nix-command" "flakes"]; 
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   users.users.crookedmirror = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+    ]; # Enable ‘sudo’ for the user.
   };
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
@@ -30,4 +41,3 @@
   system.stateVersion = "24.11"; # Did you read the comment?
 
 }
-

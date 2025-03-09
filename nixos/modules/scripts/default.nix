@@ -1,17 +1,26 @@
 # https://github.com/PedroHLC/system-setup/blob/94e7a325bbf760c56fa2ae47608c2a2f41e4fb81/packages/scripts/default.nix
-{ scriptName, substitutions ? null, lib, stdenvNoCC, bash }:
+{
+  scriptName,
+  substitutions ? null,
+  lib,
+  stdenvNoCC,
+  bash,
+}:
 let
   inherit (lib.strings) concatStringsSep escapeShellArg;
   inherit (lib.attrsets) mapAttrsToList;
   repArg = k: v: "--replace-fail ${escapeShellArg k} ${escapeShellArg v}";
 
   install =
-    if substitutions != null then ''
-      substitute "${scriptName}.sh" "$out/bin/${scriptName}" \
-        ${concatStringsSep " " (mapAttrsToList repArg substitutions)}
-    '' else ''
-      cp "${scriptName}.sh" "$out/bin/${scriptName}"
-    '';
+    if substitutions != null then
+      ''
+        substitute "${scriptName}.sh" "$out/bin/${scriptName}" \
+          ${concatStringsSep " " (mapAttrsToList repArg substitutions)}
+      ''
+    else
+      ''
+        cp "${scriptName}.sh" "$out/bin/${scriptName}"
+      '';
 in
 stdenvNoCC.mkDerivation {
   name = scriptName;

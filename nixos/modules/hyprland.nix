@@ -1,6 +1,6 @@
 {
-	programs.hyprland = {
-		enable = true;
-		withUWSM = true;
-	};
+  programs.hyprland = {
+    enable = true;
+    withUWSM = true;
+  };
 }

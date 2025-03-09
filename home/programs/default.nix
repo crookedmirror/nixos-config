@@ -16,5 +16,6 @@
     ./bash.nix
     ./librewolf.nix
     ./gaming.nix
+    ./spicetify.nix
   ];
 }

@@ -22,6 +22,12 @@
   boot.initrd.kernelModules = [ "nouveau" ];
   boot.kernelPackages = lib.mkOverride 99 pkgs.linuxPackages_cachyos;
 
+  services.udev = {
+    extraRules = ''
+      			KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{serial}=="*vial:f64c2b3c*", MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl"
+      		'';
+  };
+
   environment = {
     systemPackages = with pkgs; [
       vulkan-caps-viewer
@@ -30,7 +36,7 @@
       git
       home-manager
       nvidia-offload
-	lutris
+      lutris
     ];
 
     variables = {
@@ -95,11 +101,14 @@
     "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
   ];
 
-boot.supportedFilesystems = [ "ntfs" ];
+  boot.supportedFilesystems = [ "ntfs" ];
   fileSystems."/porsche" = {
     device = "/dev/disk/by-uuid/C88E64058E63EB00";
     fsType = "ntfs-3g";
-    options = [ "rw" "uid=1000" ];
+    options = [
+      "rw"
+      "uid=1000"
+    ];
   };
 
 }

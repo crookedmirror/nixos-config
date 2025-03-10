@@ -45,6 +45,7 @@
       "LIBVA_DRIVER_NAME" = "iHD";
     };
   };
+  programs.corectrl.enable = true;
 
   hardware.graphics = {
     enable = true;
@@ -72,10 +73,27 @@
   };
 
   networking.hostName = "dellvis";
-  services.xserver.enable = true;
 
   services.desktopManager.plasma6.enable = true;
   services.displayManager.sddm.enable = true;
+
+  time.timeZone = "Europe/Zurich";
+
+  i18n.defaultLocale = "en_US.UTF-8";
+
+  i18n.supportedLocales = [
+    "en_US.UTF-8/UTF-8"
+    "ru_RU.UTF-8/UTF-8"
+  ];
+
+  services.xserver = {
+    enable = true;
+    xkb = {
+      layout = "us, ru";
+      variant = "qwerty";
+      options = "grp:alt_shift_toggle";
+    };
+  };
 
   nix.settings.experimental-features = [
     "nix-command"

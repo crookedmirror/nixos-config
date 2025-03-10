@@ -80,6 +80,24 @@
         "url": "https://flakehub.com/f/DeterminateSystems/flake-schemas/%3D0.1.5.tar.gz"
       }
     },
+    "grayjay": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_2"
+      },
+      "locked": {
+        "lastModified": 1741483314,
+        "narHash": "sha256-taKVIrubTLFMEmjoEpxTqmiepNb2WoquYCbgDaJIxkk=",
+        "owner": "rishabh5321",
+        "repo": "grayjay-flake",
+        "rev": "211521792fdb702adb351e44e2a30b15a336db62",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rishabh5321",
+        "repo": "grayjay-flake",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -166,6 +184,22 @@
       "locked": {
         "lastModified": 1741379970,
         "narHash": "sha256-Wh7esNh7G24qYleLvgOSY/7HlDUzWaL/n4qzlBePpiw=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "36fd87baa9083f34f7f5027900b62ee6d09b1f2f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_3": {
+      "locked": {
+        "lastModified": 1741379970,
+        "narHash": "sha256-Wh7esNh7G24qYleLvgOSY/7HlDUzWaL/n4qzlBePpiw=",
         "owner": "nixos",
         "repo": "nixpkgs",
         "rev": "36fd87baa9083f34f7f5027900b62ee6d09b1f2f",
@@ -181,7 +215,7 @@
     "nur": {
       "inputs": {
         "flake-parts": "flake-parts",
-        "nixpkgs": "nixpkgs_2",
+        "nixpkgs": "nixpkgs_3",
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
@@ -201,6 +235,7 @@
     "root": {
       "inputs": {
         "chaotic": "chaotic",
+        "grayjay": "grayjay",
         "home-manager": [
           "chaotic",
           "home-manager"

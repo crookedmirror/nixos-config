@@ -11,6 +11,8 @@
 
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
     spicetify-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    grayjay.url = "github:rishabh5321/grayjay-flake";
   };
   outputs =
     {
@@ -19,6 +21,7 @@
       chaotic,
       nur,
       spicetify-nix,
+      grayjay,
       ...
     }@inputs:
     {

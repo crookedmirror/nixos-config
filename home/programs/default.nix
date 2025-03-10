@@ -1,9 +1,10 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
   nixpkgs.config.allowUnfree = true;
 
   home.packages = with pkgs; [
     qbittorrent
+    inputs.grayjay.packages.${pkgs.system}.grayjay
 
     # Privacy
     keepassxc

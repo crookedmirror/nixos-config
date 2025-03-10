@@ -30,6 +30,7 @@
       git
       home-manager
       nvidia-offload
+	lutris
     ];
 
     variables = {
@@ -91,5 +92,12 @@
   nix.settings.trusted-public-keys = [
     "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
   ];
+
+boot.supportedFilesystems = [ "ntfs" ];
+  fileSystems."/porsche" = {
+    device = "/dev/disk/by-uuid/C88E64058E63EB00";
+    fsType = "ntfs-3g";
+    options = [ "rw" "uid=1000" ];
+  };
 
 }

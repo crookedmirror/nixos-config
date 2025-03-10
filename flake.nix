@@ -13,6 +13,8 @@
     spicetify-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     grayjay.url = "github:rishabh5321/grayjay-flake";
+
+		ayugram-desktop.url = "github:ndfined-crp/ayugram-desktop/release";
   };
   outputs =
     {
@@ -22,6 +24,7 @@
       nur,
       spicetify-nix,
       grayjay,
+      ayugram-desktop,
       ...
     }@inputs:
     {

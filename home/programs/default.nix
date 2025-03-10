@@ -5,6 +5,7 @@
   home.packages = with pkgs; [
     qbittorrent
     inputs.grayjay.packages.${pkgs.system}.grayjay
+    inputs.ayugram-desktop.packages.${pkgs.system}.ayugram-desktop
 
     # Privacy
     keepassxc

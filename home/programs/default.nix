@@ -4,6 +4,7 @@
 
   home.packages = with pkgs; [
     vial
+    thunderbird-latest-unwrapped
 
     qbittorrent
     inputs.grayjay.packages.${pkgs.system}.grayjay
@@ -21,5 +22,6 @@
     ./librewolf.nix
     ./gaming.nix
     ./spicetify.nix
+    ./mpv.nix
   ];
 }

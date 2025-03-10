@@ -61,7 +61,8 @@
 
   nixpkgs.overlays = [
     (final: prev: {
-      nvidia-offload = final.callPackage ./../scripts { scriptName = "nvidia-offload"; };
+      nvidia-offload = final.callPackage ./../modules/scripts { scriptName = "nvidia-offload"; };
+      anime4k = final.callPackage ./../modules/anime4k.nix { };
     })
   ];
   nixpkgs.config.allowUnfree = true;
@@ -127,6 +128,36 @@
       "rw"
       "uid=1000"
     ];
+  };
+
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    systemWide = false;
+
+    wireplumber.enable = true;
+  };
+  services.pulseaudio.enable = false;
+  security.rtkit.enable = true; # OpenAL likes it, but my pipewire is not configure to rt.
+  environment.variables.AE_SINK = "ALSA"; # For Kodi, better latency/volume under pw.
+  environment.variables.SDL_AUDIODRIVER = "pipewire";
+  environment.variables.ALSOFT_DRIVERS = "pipewire";
+
+  # Up-to 192kHz in the NI Audio 6
+  services.pipewire.extraConfig.pipewire."99-playback-96khz" = {
+    "context.properties" = {
+      "default.clock.rate" = 96000;
+      "default.clock.allowed-rates" = [
+        44100
+        48000
+        88200
+        96000
+        176400
+        192000
+      ];
+    };
   };
 
 }

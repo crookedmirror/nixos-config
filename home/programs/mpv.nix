@@ -10,8 +10,18 @@
       gpu-context = "waylandvk";
       gpu-api = "vulkan";
     };
+    profiles = {
+      "hq" = {
+        profile = "gpu-hq";
+        scale = "ewa_lanczossharp";
+        cscale = "ewa_lanczossharp";
+        tscale = "oversample";
+        input-commands = "set user-data/current-profile \"High Quality profile\"";
+      };
+    };
     bindings = {
       "K" = "vf toggle vapoursynth=${../../assets/motioninterpolation.vpy}";
+      "p" = "show-text \"current profile: \${user-data/current-profile}\"";
 
       # Source: https://github.com/bloc97/Anime4K/blob/master/md/Template/GLSL_Mac_Linux_Low-end/input.conf
       # Optimized shaders for lower-end GPU:

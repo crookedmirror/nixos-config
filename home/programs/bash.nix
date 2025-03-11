@@ -13,6 +13,7 @@
         rebuild = "sudo nixos-rebuild switch --flake ${flakePath}";
         hms = "home-manager switch --flake ${flakePath}";
         cat = "bat --paging=never";
+        mpv-hq = "mpv --profile=hq";
       };
   };
 }

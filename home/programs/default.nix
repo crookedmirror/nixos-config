@@ -45,8 +45,8 @@ in
   xdg.mimeApps = {
     enable = true;
     defaultApplications = {
-      "video/avi" = "mpv-hq.desktop";
-      "video/mkv" = "mpv-hq.desktop";
+      "video/x-matroska" = "mpv-hq.desktop";
+      "video/x-msvideo" = "mpv-hq.desktop";
     };
   };
 }

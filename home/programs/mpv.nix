@@ -12,8 +12,7 @@
     };
     profiles = {
       "hq" = {
-        profile = "gpu-hq";
-        scale = "ewa_lanczossharp";
+        profile = "high-quality";
         cscale = "ewa_lanczossharp";
         tscale = "oversample";
         input-commands = "set user-data/current-profile \"High Quality profile\"";

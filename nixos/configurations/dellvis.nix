@@ -59,6 +59,10 @@
     extraPackages = with pkgs; [ intel-media-driver ];
   };
 
+  hardware.opengl = {
+    enable = true;
+  };
+
   nixpkgs.overlays = [
     (final: prev: {
       nvidia-offload = final.callPackage ./../modules/scripts { scriptName = "nvidia-offload"; };
@@ -87,13 +91,13 @@
     "ru_RU.UTF-8/UTF-8"
   ];
 
-  services.xserver = {
+   services.xserver = {
     enable = true;
-    xkb = {
-      layout = "us, ru";
-      variant = "qwerty";
-      options = "grp:alt_shift_toggle";
-    };
+   xkb = {
+    layout = "us, ru";
+   variant = "qwerty";
+  options = "grp:alt_shift_toggle";
+  };
   };
 
   nix.settings.experimental-features = [
@@ -112,11 +116,15 @@
 
   # github:nix-community/* cache
   nix.settings.substituters = [
+    "https://chaotic-nyx.cachix.org/"
     "https://nix-community.cachix.org/"
+    "https://hyprland.cachix.org"
     "https://cache.garnix.io"
   ];
   nix.settings.trusted-public-keys = [
+    "chaotic-nyx.cachix.org-1:HfnXSw4pj95iI/n17rIDy40agHj12WfF+Gqk6SonIT8="
     "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
     "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
   ];
 
@@ -144,6 +152,8 @@
   environment.variables.AE_SINK = "ALSA"; # For Kodi, better latency/volume under pw.
   environment.variables.SDL_AUDIODRIVER = "pipewire";
   environment.variables.ALSOFT_DRIVERS = "pipewire";
+
+  security.polkit.enable = true;
 
   # Up-to 192kHz in the NI Audio 6
   services.pipewire.extraConfig.pipewire."99-playback-96khz" = {

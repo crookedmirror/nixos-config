@@ -4,6 +4,9 @@
     enable = true;
     package = pkgs.mpv-vapoursynth;
     config = {
+      screenshot-format = "png";
+      screenshot-directory = "~/Pictures/Screenshots";
+        
       audio-channels = "stereo";
       hwdec = "vaapi";
       vo = "gpu";

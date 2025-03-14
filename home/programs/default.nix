@@ -20,6 +20,13 @@ in
     vial
     thunderbird-latest-unwrapped
 
+    dwl
+    somebar
+    #hyprland
+    kitty
+    sakura
+    #xdg-desktop-portal-hyprland
+
     qbittorrent
     inputs.grayjay.packages.${pkgs.system}.grayjay
     inputs.ayugram-desktop.packages.${pkgs.system}.ayugram-desktop
@@ -40,6 +47,7 @@ in
     ./gaming.nix
     ./spicetify.nix
     ./mpv.nix
+    #./hyprland
   ];
 
   xdg.mimeApps = {

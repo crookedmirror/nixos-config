@@ -15,6 +15,8 @@
     grayjay.url = "github:rishabh5321/grayjay-flake";
 
     ayugram-desktop.url = "github:ndfined-crp/ayugram-desktop/release";
+
+    #hyprland.url = "github:hyprwm/Hyprland";
   };
   outputs =
     {
@@ -25,6 +27,7 @@
       spicetify-nix,
       grayjay,
       ayugram-desktop,
+     # hyprland,
       ...
     }@inputs:
     {
@@ -35,6 +38,13 @@
           modules = [
             ./nixos/configurations/dellvis.nix
             chaotic.nixosModules.default
+      #      hyprland.nixosModules.default
+           # {
+            #  programs.hyprland = {
+             #   enable = true;
+              #  withUWSM = true;
+              #};
+            #}
           ];
         };
       };
@@ -49,6 +59,7 @@
             ./home/users/crookedmirror_dellvis.nix
             chaotic.homeManagerModules.default
             nur.modules.homeManager.default
+           # hyprland.homeManagerModules.default
             spicetify-nix.homeManagerModules.default
           ];
         };

@@ -59,10 +59,6 @@
     extraPackages = with pkgs; [ intel-media-driver ];
   };
 
-  hardware.opengl = {
-    enable = true;
-  };
-
   nixpkgs.overlays = [
     (final: prev: {
       nvidia-offload = final.callPackage ./../modules/scripts { scriptName = "nvidia-offload"; };

@@ -16,16 +16,13 @@ in
 {
   nixpkgs.config.allowUnfree = true;
 
+  programs.dwl.enable = true;
+
   home.packages = with pkgs; [
     vial
     thunderbird-latest-unwrapped
 
-    dwl
-    somebar
-    #hyprland
-    kitty
     sakura
-    #xdg-desktop-portal-hyprland
 
     qbittorrent
     inputs.grayjay.packages.${pkgs.system}.grayjay
@@ -47,7 +44,7 @@ in
     ./gaming.nix
     ./spicetify.nix
     ./mpv.nix
-    #./hyprland
+    ./dwl.nix
   ];
 
   xdg.mimeApps = {

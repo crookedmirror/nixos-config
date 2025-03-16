@@ -42,6 +42,20 @@
         "type": "github"
       }
     },
+    "dwl-source": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1722967407,
+        "narHash": "sha256-7SoCITrbMrlfL4Z4hVyPpjB9RrrjLXHP9C5t1DVXBBA=",
+        "rev": "c27650127a52b002bb5ee1691886b58415ef35ab",
+        "type": "tarball",
+        "url": "https://codeberg.org/api/v1/repos/dwl/dwl/archive/c27650127a52b002bb5ee1691886b58415ef35ab.tar.gz"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://codeberg.org/dwl/dwl/archive/v0.7.zip"
+      }
+    },
     "fenix": {
       "inputs": {
         "nixpkgs": [
@@ -271,6 +285,7 @@
       "inputs": {
         "ayugram-desktop": "ayugram-desktop",
         "chaotic": "chaotic",
+        "dwl-source": "dwl-source",
         "grayjay": "grayjay",
         "home-manager": [
           "chaotic",

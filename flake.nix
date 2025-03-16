@@ -16,7 +16,11 @@
 
     ayugram-desktop.url = "github:ndfined-crp/ayugram-desktop/release";
 
-    #hyprland.url = "github:hyprwm/Hyprland";
+    dwl-source = {
+      url = "https://codeberg.org/dwl/dwl/archive/v0.7.zip";
+      flake = false;
+    };
+
   };
   outputs =
     {
@@ -27,7 +31,7 @@
       spicetify-nix,
       grayjay,
       ayugram-desktop,
-     # hyprland,
+      dwl-source,
       ...
     }@inputs:
     {
@@ -38,14 +42,7 @@
           modules = [
             ./nixos/configurations/dellvis.nix
             chaotic.nixosModules.default
-      #      hyprland.nixosModules.default
-           # {
-            #  programs.hyprland = {
-             #   enable = true;
-              #  withUWSM = true;
-              #};
-            #}
-          ];
+                ];
         };
       };
       homeConfigurations = {
@@ -59,7 +56,6 @@
             ./home/users/crookedmirror_dellvis.nix
             chaotic.homeManagerModules.default
             nur.modules.homeManager.default
-           # hyprland.homeManagerModules.default
             spicetify-nix.homeManagerModules.default
           ];
         };

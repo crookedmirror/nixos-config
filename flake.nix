@@ -34,17 +34,26 @@
       dwl-source,
       ...
     }@inputs:
-    {
+    rec {
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
       nixosConfigurations = {
         dellvis = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            ./nixos/configurations/dellvis.nix
+            ./nixos/configurations/dellvis/configuration.nix
             chaotic.nixosModules.default
                 ];
         };
+      
+        jarvis = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./nixos/configurations/jarvis/configuration.nix
+            chaotic.nixosModules.default
+          ];
+        };
       };
+
       homeConfigurations = {
         "crookedmirror@dellvis" = home-manager.lib.homeManagerConfiguration {
           extraSpecialArgs = {
@@ -57,6 +66,18 @@
             chaotic.homeManagerModules.default
             nur.modules.homeManager.default
             spicetify-nix.homeManagerModules.default
+          ];
+        };
+        "crookedmirror@jarvis" = home-manager.lib.homeManagerConfiguration {
+          extraSpecialArgs = {
+            inherit inputs;
+          };
+          pkgs = nixpkgs.legacyPackages."x86_64-linux";
+
+          modules = [
+            ./home/users/crookedmirror_jarvis.nix
+            chaotic.homeManagerModules.default
+            nur.modules.homeManager.default
           ];
         };
       };

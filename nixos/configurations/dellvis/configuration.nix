@@ -7,8 +7,8 @@
 
 {
   imports = [
-    ./hardware/dellvis.nix
-    ../modules
+    ./hardware.nix
+    ../../modules
   ];
 
   boot.loader.systemd-boot.enable = true;

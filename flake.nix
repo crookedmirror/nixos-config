@@ -21,44 +21,17 @@
       flake = false;
     };
 
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    devshell.url = "github:numtide/devshell";
   };
-  outputs =
-    {
-      nixpkgs,
-      home-manager,
-      chaotic,
-      nur,
-      spicetify-nix,
-      grayjay,
-      ayugram-desktop,
-      dwl-source,
-      ...
-    }@inputs:
-    {
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
-      nixosConfigurations = {
-        dellvis = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./nixos/configurations/dellvis.nix
-            chaotic.nixosModules.default
-                ];
-        };
-      };
-      homeConfigurations = {
-        "crookedmirror@dellvis" = home-manager.lib.homeManagerConfiguration {
-          extraSpecialArgs = {
-            inherit inputs;
-          };
-          pkgs = nixpkgs.legacyPackages."x86_64-linux";
-
-          modules = [
-            ./home/users/crookedmirror_dellvis.nix
-            chaotic.homeManagerModules.default
-            nur.modules.homeManager.default
-            spicetify-nix.homeManagerModules.default
-          ];
-        };
-      };
+ outputs =
+   inputs:
+   inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+     imports = [
+       ./nix/devshell.nix
+       ./nix/pkgs.nix
+       ./nix/hosts.nix
+     ];
+     systems = [ "x86_64-linux" ];
     };
 }

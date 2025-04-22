@@ -21,10 +21,10 @@
       default = "Nadeko 4GET";
 
       engines = {
-        "Bing".metaData.hidden = true;
-        "Google".metaData.hidden = true; # TODO: not working. Google needs special treatment
-        "DuckDuckGo".metaData.hidden = true;
-        "Wikipedia (en)".metaData.alias = "wen";
+        "bing".metaData.hidden = true;
+        "google".metaData.hidden = true; # TODO: not working. Google needs special treatment
+        "ddg".metaData.hidden = true;
+        "wikipedia".metaData.alias = "wen";
         "GitHub" = {
           urls = [
             {

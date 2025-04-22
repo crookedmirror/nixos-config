@@ -16,13 +16,11 @@ in
 {
   nixpkgs.config.allowUnfree = true;
 
-  programs.dwl.enable = true;
-
   home.packages = with pkgs; [
-    vial
-    thunderbird-latest-unwrapped
+    thunderbird
 
     sakura
+    lazygit
 
     qbittorrent
     inputs.grayjay.packages.${pkgs.system}.grayjay
@@ -44,7 +42,7 @@ in
     ./gaming.nix
     ./spicetify.nix
     ./mpv.nix
-    ./dwl.nix
+    #./dwl.nix
   ];
 
   xdg.mimeApps = {

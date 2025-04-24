@@ -14,7 +14,7 @@ let
   '';
 in
 {
-  nixpkgs.config.allowUnfree = true;
+  #nixpkgs.config.allowUnfree = true;
 
   home.packages = with pkgs; [
     thunderbird
@@ -23,7 +23,7 @@ in
     lazygit
 
     qbittorrent
-    inputs.grayjay.packages.${pkgs.system}.grayjay
+    grayjay
     inputs.ayugram-desktop.packages.${pkgs.system}.ayugram-desktop
 
     # Privacy

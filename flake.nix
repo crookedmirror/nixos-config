@@ -12,8 +12,6 @@
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
     spicetify-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    grayjay.url = "github:rishabh5321/grayjay-flake";
-
     ayugram-desktop.url = "github:ndfined-crp/ayugram-desktop/release";
 
     dwl-source = {

@@ -1,12 +1,15 @@
 { inputs, config, ... }:
 {
   home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = false;
+
     sharedModules = [
-      inputs.chaotic.homeManagerModules.default
-      inputs.nur.modules.homeManager.default
       inputs.spicetify-nix.homeManagerModules.default
     ];
 
     extraSpecialArgs = { inherit inputs; };
+    backupFileExtension = "backup";
+    verbose = true;
   };
 }

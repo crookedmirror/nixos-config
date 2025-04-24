@@ -26,24 +26,11 @@
     ];
   };  
 
-  users.users.crookedmirror = {
-    isNormalUser = true;
-    extraGroups = [
-      "wheel"
-      "networkmanager"
-    ];
-  };
-
-
   environment = {
     systemPackages = with pkgs; [
-      vulkan-caps-viewer
-      vulkanPackages_latest.vulkan-tools
       vim
       git
-      home-manager
       scripts.nvidia-offload
-      lutris
     ];
 };
 }

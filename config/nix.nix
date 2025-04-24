@@ -1,4 +1,4 @@
-{
+{ inputs, ... }: {
   system.stateVersion = "24.11";
 
   nix.settings.experimental-features = [
@@ -17,5 +17,11 @@
     "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
     "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
   ];
+
+
+  nix.registry = rec {
+      nixpkgs.flake = inputs.nixpkgs;
+      p = nixpkgs;
+    };
 
 }

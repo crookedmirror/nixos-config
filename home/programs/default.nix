@@ -15,7 +15,6 @@ let
 in
 {
   #nixpkgs.config.allowUnfree = true;
-
   home.packages = with pkgs; [
     thunderbird
 
@@ -25,6 +24,8 @@ in
     qbittorrent
     grayjay
     inputs.ayugram-desktop.packages.${pkgs.system}.ayugram-desktop
+    mpv-vapoursynth
+    gsmartcontrol
 
     # Privacy
     keepassxc
@@ -45,11 +46,12 @@ in
     #./dwl.nix
   ];
 
+
   xdg.mimeApps = {
     enable = true;
     defaultApplications = {
-      "video/x-matroska" = "mpv-hq.desktop";
-      "video/x-msvideo" = "mpv-hq.desktop";
+      "video/x-matroska" = "mpv.desktop";
+      "video/x-msvideo" = "mpv.desktop";
     };
   };
 }

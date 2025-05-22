@@ -6,16 +6,18 @@
     config = {
       screenshot-format = "png";
       screenshot-directory = "~/Pictures/Screenshots";
-        
+      ao = "openal";  
       audio-channels = "stereo";
       hwdec = "vaapi";
       vo = "gpu";
+      vf = "format=rgba";
       gpu-context = "waylandvk";
       gpu-api = "vulkan";
     };
     profiles = {
       "hq" = {
         profile = "high-quality";
+        scale = "ewa_lanczossharp";
         cscale = "ewa_lanczossharp";
         tscale = "oversample";
         input-commands = "set user-data/current-profile \"High Quality profile\"";

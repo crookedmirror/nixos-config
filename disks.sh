@@ -12,10 +12,10 @@ zfs create -o mountpoint=none zroot/ROOT
 zfs create -o mountpoint=legacy zroot/ROOT/empty
 zfs create -o mountpoint=legacy zroot/ROOT/nix
 zfs create -o mountpoint=legacy zroot/data/persistent
+zfs create -o mountpoint=legacy zroot/ROOT/residues
 
 # Different recordsize
 zfs create -o mountpoint=legacy -o recordsize=16K -o compression=off zroot/data/downloads
-
 
 # Encrypted volumes.
 zfs create -o encryption=on -o keyformat=passphrase -o mountpoint=/home/vkokurin/.encrypted zroot/data/encrypted
@@ -23,7 +23,7 @@ zfs create -o encryption=on -o keyformat=passphrase -o mountpoint=/home/vkokurin
 
 # Init structure
 mount -t zfs zroot/ROOT/empty /mnt
-mkdir -p /mnt/nix /mnt/var/persistent /mnt/boot /mnt/home/pedrohlc/Downloads
+mkdir -p /mnt/nix /mnt/var/persistent /mnt/var/residues /mnt/boot /mnt/home/vkokurin/Downloads
 zfs snapshot zroot/ROOT/empty@start
 
 # Mount & Permissions
@@ -33,3 +33,4 @@ mount -t zfs zroot/ROOT/nix /mnt/nix
 mount -t zfs zroot/data/downloads /mnt/home/vkokurin/Downloads
 chown -R 1001:100 /mnt/home/vkokurin
 mount -t zfs zroot/data/persistent /mnt/var/persistent
+mount -t zfs zroot/ROOT/residues /mnt/var/residues

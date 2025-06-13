@@ -21,6 +21,7 @@
 
     flake-parts.url = "github:hercules-ci/flake-parts";
     devshell.url = "github:numtide/devshell";
+    impermanence.url = "github:nix-community/impermanence";
   };
  outputs =
    inputs:

@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ inputs, pkgs, lib, ... }:
 {
   imports = [
 
@@ -6,10 +6,6 @@
 
     ../../config
 
-    ../../config/hardware/mesa.nix
-    ../../config/hardware/intel.nix
-    ../../config/hardware/ergohaven.nix
-    ../../config/hardware/ni-audio-6.nix
     ../../config/graphical  
 
     ../../users/crookedmirror
@@ -18,13 +14,11 @@
     ./net.nix
   ];
   nixpkgs.hostPlatform = "x86_64-linux";
-  # My preferred kernel
-  boot.kernelPackages = lib.mkOverride 99 pkgs.linuxPackages_cachyos;
 
   # Filesytems settings.
   boot.supportedFilesystems = [ "zfs" "vfat" "ntfs3" ];
   boot.zfs.requestEncryptionCredentials = false;
-  boot.zfs.package = lib.mkOverride 99 pkgs.zfs_cachyos;
+  #boot.zfs.package = lib.mkOverride 99 pkgs.zfs_cachyos;
 
   # I prefer to trim using ZFS' "autotrim"
   services.zfs.trim.enable = false;

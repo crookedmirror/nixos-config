@@ -16,20 +16,21 @@ in
 {
   #nixpkgs.config.allowUnfree = true;
   home.packages = with pkgs; [
-    thunderbird
+    #thunderbird
 
-    sakura
-    lazygit
+    #sakura
+    #lazygit
 
-    qbittorrent
-    grayjay
-    inputs.ayugram-desktop.packages.${pkgs.system}.ayugram-desktop
+    #qbittorrent
+    #grayjay
+    #ayugram-desktop
+    #inputs.ayugram-desktop.packages.${pkgs.system}.ayugram-desktop
     mpv-vapoursynth
-    gsmartcontrol
+    #gsmartcontrol
 
     # Privacy
-    keepassxc
-    feather
+    #keepassxc
+    #feather
     tor-browser
 
     # Custom desktop applications

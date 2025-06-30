@@ -1,6 +1,5 @@
 { pkgs, lib, ... }:
 {
-
   programs.mangohud = {
     enable = true;
     package = pkgs.mangohud_git;
@@ -29,10 +28,10 @@
 
       # cool, but not always necessary
       # keeping here for remembering
-      # arch = true;
-      # vulkan_driver = true;
-      # gpu_name = true;
-      # engine_version = true;
+      #arch = true;
+      #vulkan_driver = true;
+      #gpu_name = true;
+      #engine_version = true;
     };
   };
 }

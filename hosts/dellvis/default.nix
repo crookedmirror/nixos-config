@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ config, inputs, pkgs, lib, ... }:
 {
   imports = [
 
@@ -17,6 +17,11 @@
   ];
   nixpkgs.hostPlatform = "x86_64-linux";
 
+  virtualisation.docker.rootless = {
+    enable = true;
+    setSocketVariable = true;
+  };
+
   #boot.supportedFilesystems = [ "ntfs" ];
   #fileSystems."/porsche" = {
   #  device = "/dev/disk/by-uuid/C88E64058E63EB00";
@@ -26,14 +31,13 @@
   #    "uid=1000"
   #  ];
   #};  
-
   environment = {
     systemPackages = with pkgs; [
       vim
       git
-      scripts.nvidia-offload
       corectrl
+      bigsteam
+      nvidia-offload
     ];
-};
-  
+  }; 
 }

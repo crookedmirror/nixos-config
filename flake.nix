@@ -21,6 +21,12 @@
 
     flake-parts.url = "github:hercules-ci/flake-parts";
     devshell.url = "github:numtide/devshell";
+    
+    phoenix = {
+      url = "git+https://gitlab.com/celenityy/Phoenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
  outputs =
    inputs:

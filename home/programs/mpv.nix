@@ -8,7 +8,8 @@
       screenshot-directory = "~/Pictures/Screenshots";
       ao = "openal";  
       audio-channels = "stereo";
-      hwdec = "vaapi";
+      hwdec = "nvdec-copy";
+      #hwdec = "vaapi";
       vo = "gpu";
       vf = "format=rgba";
       gpu-context = "waylandvk";

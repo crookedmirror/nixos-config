@@ -31,6 +31,7 @@ in
     keepassxc
     feather
     tor-browser
+    heroic-unwrapped
 
     # Custom desktop applications
     mpv-hq-entry

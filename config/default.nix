@@ -5,6 +5,7 @@
     inputs.chaotic.nixosModules.default
     inputs.home-manager.nixosModules.default
     inputs.nur.modules.nixos.default
+    inputs.phoenix.nixosModules.default
 
  
     ./boot.nix

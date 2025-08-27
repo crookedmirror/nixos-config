@@ -26,6 +26,7 @@
       url = "git+https://gitlab.com/celenityy/Phoenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    mdatp.url = "github:NitorCreations/nix-mdatp";
 
   };
  outputs =

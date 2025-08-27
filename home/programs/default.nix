@@ -21,6 +21,10 @@ in
     sakura
     lazygit
 
+    arduino-ide
+    python314
+    tree
+
     qbittorrent
     grayjay
     inputs.ayugram-desktop.packages.${pkgs.system}.ayugram-desktop
@@ -31,7 +35,7 @@ in
     keepassxc
     feather
     tor-browser
-    heroic-unwrapped
+    #heroic-unwrapped
 
     # Custom desktop applications
     mpv-hq-entry

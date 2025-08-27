@@ -9,7 +9,6 @@
     wireplumber.enable = true;
   };
   services.pulseaudio.enable = false;
-  services.intune.enable = true;
   security.rtkit.enable = true; # OpenAL likes it, but my pipewire is not configure to rt.
   environment.variables.AE_SINK = "ALSA"; # For Kodi, better latency/volume under pw.
   environment.variables.SDL_AUDIODRIVER = "pipewire";

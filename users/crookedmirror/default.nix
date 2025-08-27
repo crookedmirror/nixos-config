@@ -8,7 +8,9 @@
     isNormalUser = true;
     extraGroups = [
       "wheel"
+      "dialout"
       "networkmanager"
+      "tss"
     ];
   };
 

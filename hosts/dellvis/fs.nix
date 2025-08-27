@@ -14,12 +14,12 @@
   };
 
   boot.supportedFilesystems = [ "ntfs" ];
-  #fileSystems."/porsche" = {
-  #  device = "/dev/disk/by-uuid/C88E64058E63EB00";
-  #  fsType = "ntfs-3g";
-  #  options = [
-  #    "rw"
-  #    "uid=1000"
-  #  ];
-  #};  
+  fileSystems."/porsche" = {
+    device = "/dev/disk/by-uuid/C88E64058E63EB00";
+    fsType = "ntfs-3g";
+    options = [
+      "rw"
+      "uid=1000"
+    ];
+  };  
 }

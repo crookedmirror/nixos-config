@@ -7,7 +7,7 @@
       args = [ "--immediate-flips" "-w" "1920" "-h" "1080" "--" "bigsteam"];
     };
     extraCompatPackages = with pkgs; [
-      proton-ge-custom
+      #proton-ge-custom #currently broken in chaotic
     ];
 
   };

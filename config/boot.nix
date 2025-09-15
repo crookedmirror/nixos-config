@@ -1,4 +1,10 @@
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
@@ -15,7 +21,7 @@
     "rtsx_pci_sdmmc"
     "i915"
   ];
-  boot.initrd.kernelModules = [ 
+  boot.initrd.kernelModules = [
     "nouveau"
   ];
   boot.kernelModules = [ "kvm-intel" ];
@@ -26,16 +32,17 @@
     boot.kernelPackages = lib.mkOverride 98 pkgs.linuxPackages;
     chaotic.mesa-git.enable = lib.mkForce false;
   };
-  
+
   # Video Acceleration
   chaotic.mesa-git.extraPackages = with pkgs; [ intel-media-driver ];
 
-    # System-wide changes
+  # System-wide changes
   environment = {
     # Prefer intel unless told so
     variables = {
       "WLR_DRM_DEVICES" = "/dev/dri/card1";
-      "VK_DRIVER_FILES" = "/run/opengl-driver/share/vulkan/icd.d/intel_icd.x86_64.json:/run/opengl-driver-32/share/vulkan/icd.d/intel_icd.i686.json";
+      "VK_DRIVER_FILES" =
+        "/run/opengl-driver/share/vulkan/icd.d/intel_icd.x86_64.json:/run/opengl-driver-32/share/vulkan/icd.d/intel_icd.i686.json";
       "LIBVA_DRIVER_NAME" = "iHD";
     };
   };

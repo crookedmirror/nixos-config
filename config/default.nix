@@ -7,7 +7,6 @@
     inputs.nur.modules.nixos.default
     inputs.phoenix.nixosModules.default
 
- 
     ./boot.nix
     ./home-manager.nix
     ./sound.nix

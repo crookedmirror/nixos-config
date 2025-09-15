@@ -18,7 +18,6 @@ in
   home-manager.users.${username} = {
     imports = [
       ../shared
-      ../../home/users/crookedmirror_dellvis.nix
     ];
     home = {
       username = "crookedmirror";

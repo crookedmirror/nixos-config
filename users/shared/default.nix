@@ -78,21 +78,6 @@ in
     mpv-hq-entry
   ];
 
-  programs.git = {
-    enable = true;
-    extraConfig = {
-      push.autoSetupRemote = true;
-      pull.rebase = true;
-      init.defaultBranch = "main";
-    };
-
-    aliases = {
-      unstash = "stash pop";
-      s = "status";
-      tags = "tag -l";
-    };
-  };
-
   home.file = {
     ".bashrc".text = ''
       unset HISTFILE

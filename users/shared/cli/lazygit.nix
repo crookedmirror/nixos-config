@@ -7,10 +7,6 @@
 }:
 let
   lgToDeltaFix = if globals.theme.preferDark then "--dark" else "--light";
-  deltaWrapper = pkgs.writeScriptBin "delta" ''
-    #!/usr/bin/env bash 
-    DELTA_FEATURES="+catppuccin-${globals.theme.colors.flavour}" ${pkgs.delta}/bin/delta "$@" 
-  '';
   lazygitWrapper = pkgs.writeScriptBin "lazygit" ''
      #!/usr/bin/env bash
     LG_CONFIG_FILE="${config.xdg.configHome}/lazygit/config.yml,${config.xdg.configHome}/lazygit/theme.yml" ${pkgs.lazygit}/bin/lazygit "$@" 
@@ -21,31 +17,6 @@ in
     shellAliases = {
       lg = ''lazygit "$@"'';
     };
-  };
-
-  programs.git = {
-
-    delta = {
-      enable = true;
-      package = deltaWrapper;
-      options = {
-        features = "side-by-side";
-        file-modified-label = "modified:";
-      };
-    };
-
-    includes = [
-      { path = "${inputs.catppuccin-delta}/catppuccin.gitconfig"; }
-      {
-        condition = "hasconfig:remote.*.url:**github.com:*/*.git";
-        contents = {
-          user = {
-            email = "crookedmirror@xyz";
-            name = "crookedmirror";
-          };
-        };
-      }
-    ];
   };
 
   programs.lazygit = {

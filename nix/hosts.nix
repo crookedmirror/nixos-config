@@ -15,17 +15,20 @@
         inputs.nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs;
+            inherit (config) globals;
           };
           modules = [
             {
               nixpkgs.config.allowUnfree = true;
-              nixpkgs.overlays = (import ../pkgs/default.nix inputs) ++ [];
+              nixpkgs.overlays = [ (import ../packages/default.nix) ];
             }
             ../hosts/${name}
           ];
         };
 
-      hosts = builtins.attrNames (lib.filterAttrs (_: type: type == "directory") (builtins.readDir ../hosts));
+      hosts = builtins.attrNames (
+        lib.filterAttrs (_: type: type == "directory") (builtins.readDir ../hosts)
+      );
     in
     {
       nixosConfigurations = lib.genAttrs hosts (mkHost);

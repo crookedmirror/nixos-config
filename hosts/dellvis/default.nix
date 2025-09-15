@@ -56,8 +56,6 @@
       vim
       git
       corectrl
-      bigsteam
-      nvidia-offload
     ];
   };
 }

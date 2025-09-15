@@ -18,9 +18,6 @@ in
   home.packages = with pkgs; [
     thunderbird
 
-    sakura
-    lazygit
-
     arduino-ide
     python314
     tree
@@ -43,14 +40,7 @@ in
 
   imports = [
     ./git.nix
-    ./bash.nix
-    ./librewolf.nix
-    ./gaming.nix
-    ./spicetify.nix
-    ./mpv.nix
-    #./dwl.nix
   ];
-
 
   xdg.mimeApps = {
     enable = true;

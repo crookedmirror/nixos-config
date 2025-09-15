@@ -2,6 +2,7 @@
   lib,
   pkgs,
   inputs,
+  globals,
   ...
 }:
 {
@@ -11,7 +12,10 @@
       adblock
       hidePodcasts
       shuffle
+      bookmark
+      keyboardShortcut
     ];
-    spicetify.theme = lib.mkForce inputs.spicetify.legacyPackages.${pkgs.system}.themes.text;
+    spicetify.theme = inputs.spicetify.legacyPackages.${pkgs.system}.themes.text;
+    spicetify.colorScheme = if globals.theme.preferDark then "CatppuccinMocha" else "CatppuccinLatte";
   };
 }

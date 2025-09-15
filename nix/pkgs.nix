@@ -1,3 +1,6 @@
+# This module exposes pkgs for debugging outside of evaluation
+# Ex: nix run .#pkgs.x86_64-linux.zsh-histdb-skim will test
+# packages/zsh-histdb-skim.nix
 { inputs, ... }:
 {
   imports = [
@@ -16,7 +19,6 @@
       }
     )
   ];
-
   perSystem =
     {
       pkgs,
@@ -26,9 +28,8 @@
     {
       _module.args.pkgs = import inputs.nixpkgs {
         inherit system;
-        #config.allowUnfree = true;
-
-        overlays = (import ../pkgs/default.nix inputs) ++ [];
+        config.allowUnfree = true;
+        overlays = [ (import ../packages/default.nix) ];
       };
 
       inherit pkgs;

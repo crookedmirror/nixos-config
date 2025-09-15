@@ -6,7 +6,7 @@
     config = {
       screenshot-format = "png";
       screenshot-directory = "~/Pictures/Screenshots";
-      ao = "openal";  
+      ao = "openal";
       audio-channels = "stereo";
       hwdec = "nvdec-copy";
       #hwdec = "vaapi";
@@ -25,7 +25,7 @@
       };
     };
     bindings = {
-      "K" = "vf toggle vapoursynth=${../../assets/motioninterpolation.vpy}";
+      "K" = "vf toggle vapoursynth=${./motioninterpolation.vpy}";
       "p" = "show-text \"current profile: \${user-data/current-profile}\"";
 
       # Source: https://github.com/bloc97/Anime4K/blob/master/md/Template/GLSL_Mac_Linux_Low-end/input.conf
@@ -45,5 +45,9 @@
 
       "CTRL+0" = ''no-osd change-list glsl-shaders clr ""; show-text "GLSL shaders cleared"'';
     };
+  };
+
+  home.shellAliases = {
+    mpv-hq = "mpv --profile=hq";
   };
 }

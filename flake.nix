@@ -2,26 +2,56 @@
   description = "crookedmirror's NixOS Flake";
 
   inputs = {
-    nixpkgs.follows = "chaotic/nixpkgs";
-
-    home-manager.follows = "chaotic/home-manager";
-
+    # Upstream packages
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     nur.url = "github:nix-community/NUR";
 
-    spicetify-nix.url = "github:Gerg-L/spicetify-nix";
-    spicetify-nix.inputs.nixpkgs.follows = "nixpkgs";
-
-    ayugram-desktop.url = "github:ndfined-crp/ayugram-desktop/release";
-
-    dwl-source = {
-      url = "https://codeberg.org/dwl/dwl/archive/v0.7.zip";
-      flake = false;
-    };
+    nixpkgs.follows = "chaotic/nixpkgs";
+    home-manager.follows = "chaotic/home-manager";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
     devshell.url = "github:numtide/devshell";
-    
+    agenix-rekey.url = "github:oddlama/agenix-rekey";
+    treefmt-nix.url = "github:numtide/treefmt-nix";
+    pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
+    nixgl.url = "github:nix-community/nixGL";
+
+    spicetify.url = "github:Gerg-L/spicetify-nix";
+    ayugram-desktop.url = "github:ndfined-crp/ayugram-desktop/release";
+
+    #Themes
+    catppuccin-zsh-fsh = {
+      url = "github:catppuccin/zsh-fsh";
+      flake = false;
+    };
+    catppuccin-eza = {
+      url = "github:catppuccin/eza";
+      flake = false;
+    };
+    catppuccin-bat = {
+      url = "github:catppuccin/bat";
+      flake = false;
+    };
+    catppuccin-lazygit = {
+      url = "github:catppuccin/lazygit";
+      flake = false;
+    };
+    catppuccin-delta = {
+      url = "github:catppuccin/delta";
+      flake = false;
+    };
+    catppuccin-alacritty = {
+      url = "github:catppuccin/alacritty";
+      flake = false;
+    };
+    catppuccin-dircolors = {
+      url = "github:wochap/dircolors";
+      flake = false;
+    };
+    catppuccin-tmux = {
+      url = "github:catppuccin/tmux";
+      flake = false;
+    };
     phoenix = {
       url = "git+https://gitlab.com/celenityy/Phoenix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -29,14 +59,24 @@
     mdatp.url = "github:NitorCreations/nix-mdatp";
 
   };
- outputs =
-   inputs:
-   inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-     imports = [
-       ./nix/devshell.nix
-       ./nix/pkgs.nix
-       ./nix/hosts.nix
-     ];
-     systems = [ "x86_64-linux" ];
-    };
+
+  outputs =
+    inputs:
+    inputs.flake-parts.lib.mkFlake
+      {
+        inherit inputs;
+      }
+      {
+        imports = [
+          ./nix/identities.nix
+          ./nix/devshell.nix
+          ./nix/globals.nix
+          ./nix/pkgs.nix
+          ./nix/hosts.nix
+          ./nix/home-configurations.nix
+        ];
+        systems = [
+          "x86_64-linux"
+        ];
+      };
 }

@@ -1,16 +1,30 @@
-{ inputs, config, ... }:
+{
+  inputs,
+  globals,
+  config,
+  ...
+}:
 {
   home-manager = {
     useGlobalPkgs = true;
-    useUserPackages = false;
+    useUserPackages = true;
 
     sharedModules = [
-      inputs.spicetify-nix.homeManagerModules.default
+      inputs.chaotic.homeManagerModules.default
+      inputs.spicetify.homeManagerModules.default
+      inputs.nur.modules.homeManager.default
     ];
 
-    extraSpecialArgs = { inherit inputs; };
+    extraSpecialArgs = { inherit inputs globals; };
     backupFileExtension = "backup";
     verbose = true;
   };
+
+  programs.zsh = {
+    enable = true;
+    enableCompletion = false;
+  };
+
+  environment.pathsToLink = [ "/share/zsh" ];
 
 }

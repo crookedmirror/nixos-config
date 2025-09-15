@@ -34,7 +34,18 @@ in
       };
     };
 
-    includes = [ { path = "${inputs.catppuccin-delta}/catppuccin.gitconfig"; } ];
+    includes = [
+      { path = "${inputs.catppuccin-delta}/catppuccin.gitconfig"; }
+      {
+        condition = "hasconfig:remote.*.url:**github.com:*/*.git";
+        contents = {
+          user = {
+            email = "crookedmirror@xyz";
+            name = "crookedmirror";
+          };
+        };
+      }
+    ];
   };
 
   programs.lazygit = {

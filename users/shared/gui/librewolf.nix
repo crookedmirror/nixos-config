@@ -21,7 +21,7 @@
     ];
     profiles.default.search = {
       force = true;
-      default = "4GET.ch";
+      default = "4get.hackliberty.org";
 
       engines = {
         #TODO: Hode Mojeek, MetaGer, StartPage and DuckDuckGo Lite
@@ -65,10 +65,10 @@
           ];
           definedAliases = [ "np" ];
         };
-        "4GET.ch" = {
+        "4get.hackliberty.org" = {
           urls = [
             {
-              template = "https://4get.ch/web";
+              template = "https://4get.hackliberty.org/web";
               params = [
                 {
                   name = "s";

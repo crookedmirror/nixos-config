@@ -40,6 +40,26 @@
             };
             help = "Rebuild home-manager configuration";
           }
+          {
+            package = pkgs.nix-output-monitor;
+            help = "Nix Output Monitor (a drop-in alternative for `nix` which shows a build graph)";
+          }
+          {
+            package = pkgs.writeShellApplication {
+              name = "build";
+              text = ''
+                set -euo pipefail
+                [[ "$#" -ge 1 ]] \
+                  || { echo "usage: build <HOST>..." >&2; exit 1; }
+                HOSTS=()
+                for h in "$@"; do
+                  HOSTS+=(".#nixosConfigurations.$h.config.system.build.toplevel")
+                done
+                nom build --no-link --print-out-paths --show-trace "''${HOSTS[@]}"
+              '';
+            };
+            help = "Build a host configuration";
+          }
         ];
         devshell.startup.pre-commit.text = config.pre-commit.installationScript;
         devshell.startup.shell-hook.text = ''

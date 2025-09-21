@@ -26,5 +26,4 @@
   };
 
   environment.pathsToLink = [ "/share/zsh" ];
-
 }

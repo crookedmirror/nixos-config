@@ -27,6 +27,7 @@
           #Packages needed for decryption of repo.secrets
           pkgs.rage
           pkgs.age-plugin-tpm
+          pkgs.nix
         ];
         commands = [
           {

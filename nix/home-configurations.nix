@@ -29,7 +29,8 @@
           inherit (config) globals;
         };
         modules = [
-          ../home-manager/home.nix
+          ../config/non-nix.nix
+          ../users/jarvis
           inputs.chaotic.homeManagerModules.default
           inputs.spicetify.homeManagerModules.default
           inputs.nur.modules.homeManager.default
@@ -37,6 +38,6 @@
       };
     in
     {
-      homeConfigurations."crookedmirror" = (makeHomeConfiguration);
+      homeConfigurations."jarvis" = (makeHomeConfiguration);
     };
 }

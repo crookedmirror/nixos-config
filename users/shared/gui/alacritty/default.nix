@@ -9,13 +9,13 @@
 {
   programs.alacritty = {
     enable = true;
-    package = pkgs.alacritty_git; # chaotic
+    package =
+      if config.nonNixos.enable then (config.lib.nixGL.wrap pkgs.alacritty_git) else pkgs.alacritty_git; # chaotic
     settings = {
       general.import = [ "${config.xdg.configHome}/alacritty/theme.toml" ];
       window.opacity = lib.mkForce 0.95;
       font.normal.family = "Hack Nerd Font";
       font.size = 13.0;
-      #keyboard.bindings = lib.trivial.importJSON "${./..}/alacritty/key-bindings.json";
       terminal.shell = {
         program = "${pkgs.tmux}/bin/tmux";
         args = [

@@ -59,13 +59,10 @@ in
     tree
 
     qbittorrent
-    grayjay
-    inputs.ayugram-desktop.packages.${pkgs.system}.ayugram-desktop
-    mpv-vapoursynth
-    gsmartcontrol
+    #grayjay
 
     nix-tree
-    nix-top_abandoned
+    nix-top_abandoned # chaotic
 
     ungoogled-chromium
 

@@ -20,6 +20,7 @@
 
     ./fs.nix
     ./net.nix
+    ./nixos
     inputs.mdatp.nixosModules.mdatp
   ];
   nixpkgs.hostPlatform = "x86_64-linux";

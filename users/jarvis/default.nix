@@ -15,8 +15,6 @@ in
   nixGL = {
     #https://github.com/nix-community/nixGL/issues/114#issuecomment-2741822320
     packages = import inputs.nixgl { inherit pkgs; };
-    defaultWrapper = "mesa";
-    installScripts = [ "mesa" ];
   };
 
   imports = [

@@ -47,6 +47,10 @@ in
     zsh-completions
     skim
   ];
+  home.sessionVariables = {
+    "HISTDB_DEFAULT_TAB" = "Directory|Machine";
+    "HISTDB_FILE" = "${config.xdg.dataHome}/zsh/history.db";
+  };
   programs.zsh = {
     enable = true;
     dotDir = "${config.xdg.configHome}/zsh";
@@ -65,16 +69,11 @@ in
     '';
     initContent = lib.mkMerge [
       (lib.mkBefore ''
-                # HistDB with skim adapter configuration
-                # TODO: set this in localVariables
-                export HISTDB_COLOR=${historyPlugin.catppuccinColors}       
-        	HISTDB_FILE=${config.xdg.dataHome}/zsh/history.db 
-                HISTDB_DEFAULT_TAB="Directory|Machine"
-                			
-                # Powerlevel10k instant prompt.
-                if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
-                  source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
-                fi                       
+        HISTDB_COLOR = ${historyPlugin.catppuccinColors}; #TODO: set this up with skim pkgs directly, and then use pkgs.skim in this plugin
+        # Powerlevel10k instant prompt.
+        if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
+          source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
+        fi                       
       '')
       (lib.mkOrder 550 ''
         [[ ! -f ${config.xdg.configHome}/zsh/.p10k.zsh ]] || source ${config.xdg.configHome}/zsh/.p10k.zsh
@@ -108,6 +107,5 @@ in
     "zsh/config.zsh".source = ./dotfiles/config.zsh;
     "zsh/functions.zsh".source = ./dotfiles/functions.zsh;
     "zsh/key-bindings.zsh".source = ./dotfiles/key-bindings.zsh;
-    "fsh/catppuccin-mocha.ini".source = ./dotfiles/catppuccin-mocha.ini;
   };
 }

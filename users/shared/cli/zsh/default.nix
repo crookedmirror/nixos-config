@@ -93,7 +93,6 @@ in
 
         # History reverse search
         source ${pkgs.zsh-histdb-skim}/share/zsh-histdb-skim/zsh-histdb-skim.plugin.zsh
-
         # FIXME: only shell.nix and eza.nix shellAliases are displayed
         source ${pkgs.oh-my-zsh}/share/oh-my-zsh/plugins/aliases/aliases.plugin.zsh
         # ZSH in Nix-Shell
@@ -102,11 +101,6 @@ in
         source ${config.xdg.configHome}/zsh/key-bindings.zsh                                                       		
       ''
     ];
-  };
-
-  programs.zoxide = {
-    enable = true;
-    enableZshIntegration = true;
   };
 
   xdg.configFile = {

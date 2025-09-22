@@ -16,7 +16,6 @@
       darkreader
       google-container
       octotree
-      #pywalfox uncomment for theme changing
       surfingkeys
     ];
     profiles.default.search = {
@@ -24,7 +23,7 @@
       default = "4get.hackliberty.org";
 
       engines = {
-        #TODO: Hode Mojeek, MetaGer, StartPage and DuckDuckGo Lite
+        #TODO: Hide Mojeek, MetaGer, StartPage and DuckDuckGo Lite
         "bing".metaData.hidden = true;
         "google".metaData.hidden = true;
         "duckduckgo".metaData.hidden = true;

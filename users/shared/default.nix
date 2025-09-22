@@ -51,6 +51,7 @@ in
     file
     nerd-fonts.hack
     fzf
+    traceroute
 
     thunderbird
 
@@ -94,6 +95,5 @@ in
   programs = {
     gpg.enable = true;
     neovim.enable = true;
-    direnv.enable = true;
   };
 }

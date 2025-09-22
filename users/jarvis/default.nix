@@ -23,12 +23,14 @@ in
     ../shared
   ];
 
+  programs.home-manager.enable = true;
+  targets.genericLinux.enable = true;
+  xdg.enable = true;
+
   home = {
     username = "${username}";
     homeDirectory = "/home/${username}";
     stateVersion = "24.11";
-
-    sessionPath = [ "$HOME/.local/bin" ];
 
     activation.make-zsh-default-shell = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       PATH="/usr/bin:/bin:$PATH"

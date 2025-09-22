@@ -8,6 +8,3 @@
 6) execute nixos-install of this flake and using chaotics cache
 7) reboot, login as root and set password for main user
 
-
-Rebuild home-manager config:
-nix run nixpkgs#home-manager -- switch -b backup --flake .#jarvis --impure

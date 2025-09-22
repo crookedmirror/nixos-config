@@ -6,7 +6,6 @@
   ...
 }:
 let
-  lgToDeltaFix = if globals.theme.preferDark then "--dark" else "--light";
   lazygitWrapper = pkgs.writeScriptBin "lazygit" ''
      #!/usr/bin/env bash
     LG_CONFIG_FILE="${config.xdg.configHome}/lazygit/config.yml,${config.xdg.configHome}/lazygit/theme.yml" ${pkgs.lazygit}/bin/lazygit "$@" 

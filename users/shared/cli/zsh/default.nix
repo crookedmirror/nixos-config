@@ -33,11 +33,6 @@ let
       rev = "30797f0c50c31c8d8de32386970c5d480e5ab35d";
       hash = "sha256-PQIFF8kz+baqmZWiSr+wc4EleZ/KD8Y+lxW2NT35/bg=";
     };
-    # https://github.com/catppuccin/skim
-    catppuccinLatteColors = "--color=fg:#4c4f69,bg:#eff1f5,matched:#ccd0da,matched_bg:#dd7878,current:#4c4f69,current_bg:#bcc0cc,current_match:#eff1f5,current_match_bg:#dc8a78,spinner:#40a02b,info:#8839ef,prompt:#1e66f5,cursor:#d20f39,selected:#e64553,header:#179299,border:#9ca0b0";
-    catppuccinMochaColors = "--color=fg:#cdd6f4,bg:#1e1e2e,matched:#313244,matched_bg:#f2cdcd,current:#cdd6f4,current_bg:#45475a,current_match:#1e1e2e,current_match_bg:#f5e0dc,spinner:#a6e3a1,info:#cba6f7,prompt:#89b4fa,cursor:#f38ba8,selected:#eba0ac,header:#94e2d5,border:#6c7086";
-    catppuccinColors =
-      if globals.theme.preferDark then catppuccinMochaColors else catppuccinLatteColors;
   };
 in
 {
@@ -45,7 +40,6 @@ in
   home.packages = with pkgs; [
     sqlite-interactive
     zsh-completions
-    skim
   ];
   home.sessionVariables = {
     "HISTDB_DEFAULT_TAB" = "Directory|Machine";
@@ -69,7 +63,6 @@ in
     '';
     initContent = lib.mkMerge [
       (lib.mkBefore ''
-        HISTDB_COLOR = ${historyPlugin.catppuccinColors}; #TODO: set this up with skim pkgs directly, and then use pkgs.skim in this plugin
         # Powerlevel10k instant prompt.
         if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
           source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"

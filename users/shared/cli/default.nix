@@ -8,5 +8,6 @@
     ./direnv.nix
     ./zsh
     ./zoxide.nix
+    ./skim.nix
   ];
 }

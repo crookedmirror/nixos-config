@@ -2,6 +2,7 @@
   inputs,
   lib,
   config,
+  overlays,
   pkgs,
   ...
 }:
@@ -20,6 +21,11 @@ in
 
     nix = {
       package = pkgs.nix;
+    };
+
+    nixpkgs = {
+      config.allowUnfree = true;
+      inherit overlays;
     };
   };
 }

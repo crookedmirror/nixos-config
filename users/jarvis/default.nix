@@ -12,6 +12,9 @@ in
 {
   nonNixos.enable = true;
 
+  repo.secretFiles.user-myuser = ./secrets/user.nix.age;
+  userSecretsName = "user-myuser";
+
   nixGL = {
     #https://github.com/nix-community/nixGL/issues/114#issuecomment-2741822320
     packages = import inputs.nixgl { inherit pkgs; };

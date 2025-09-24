@@ -13,5 +13,7 @@
     ./net.nix
     ./nix.nix
     ./system.nix
+
+    ../modules/meta.nix
   ];
 }

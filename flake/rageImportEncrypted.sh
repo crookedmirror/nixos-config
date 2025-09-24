@@ -6,9 +6,6 @@ file="$1"
 shift
 identities=("$@")
 
-#file="$2"
-#identities=("$1")
-
 # Strip .age suffix, and store path prefix or ./ if applicable
 basename="${file%".age"}"
 [[ $file == "/nix/store/"* ]] && basename="${basename#*"-"}"
@@ -34,4 +31,4 @@ if [[ ! -e $out ]]; then
 fi
 
 # Print out decrypted content
-echo "$out"
+cat "$out"

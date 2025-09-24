@@ -23,11 +23,12 @@
       };
 
       devshells.default = {
-        packages = [
+        packages = with pkgs; [
           #Packages needed for decryption of repo.secrets
-          pkgs.rage
-          pkgs.age-plugin-tpm
-          pkgs.nix
+          rage
+          age-plugin-tpm
+
+          nix # Use the same nix as the one with nix-plugins
         ];
         commands = [
           {
@@ -37,7 +38,7 @@
           {
             package = pkgs.writeShellApplication {
               name = "hms";
-              text = "home-manager switch -b backup --flake . --impure";
+              text = "home-manager switch -b backup --flake . --impure --show-trace";
             };
             help = "Rebuild home-manager configuration";
           }
@@ -73,7 +74,7 @@
                 ];
               })
             }/lib/nix/plugins
-            extra-builtins-file = ${./..}/nix/extra-builtins.nix
+            extra-builtins-file = ${./..}/flake/extra-builtins.nix
           "
         '';
       };

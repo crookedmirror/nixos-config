@@ -11,10 +11,13 @@
 
     flake-parts.url = "github:hercules-ci/flake-parts";
     devshell.url = "github:numtide/devshell";
+    agenix.url = "github:ryantm/agenix";
     agenix-rekey.url = "github:oddlama/agenix-rekey";
     treefmt-nix.url = "github:numtide/treefmt-nix";
     pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
     nixgl.url = "github:nix-community/nixGL";
+
+    opcode.url = "github:getmissionctrl/claudia";
 
     spicetify.url = "github:Gerg-L/spicetify-nix";
     ayugram-desktop.url = "github:ndfined-crp/ayugram-desktop/release";
@@ -68,12 +71,12 @@
       }
       {
         imports = [
-          ./nix/identities.nix
-          ./nix/devshell.nix
-          ./nix/globals.nix
-          ./nix/pkgs.nix
-          ./nix/hosts.nix
-          ./nix/home-configurations.nix
+          ./flake/agenix-rekey.nix
+          ./flake/devshell.nix
+          ./flake/globals.nix
+          ./flake/pkgs.nix
+          ./flake/hosts.nix
+          ./flake/home-configurations.nix
         ];
         systems = [
           "x86_64-linux"

@@ -8,6 +8,13 @@ in
   # file once.
   rageImportEncrypted =
     identities: nixFile:
+    let
+      # Extract identity paths from the new structure
+      # Handles both old format (plain paths) and new format (objects with identity field)
+      identityPaths = map (
+        identity: if builtins.isAttrs identity then identity.identity else identity
+      ) identities;
+    in
     assert assertMsg (builtins.isPath nixFile)
       "The file to decrypt must be given as a path to prevent impurity.";
     exec (
@@ -16,6 +23,6 @@ in
         ./rageImportEncrypted.sh
         nixFile
       ]
-      ++ identities
+      ++ identityPaths
     );
 }

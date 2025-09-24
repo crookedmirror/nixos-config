@@ -24,9 +24,11 @@ let
 in
 {
   imports = [
+    ../modules
     ./gui
     ./cli
     ./tui
+    ./security
   ];
 
   home.shellAliases = {

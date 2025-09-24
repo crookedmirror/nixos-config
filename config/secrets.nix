@@ -20,7 +20,7 @@
       ;
     agePlugins = [ pkgs.age-plugin-tpm ];
 
-    hostPubkey = config.node.secretsDir + "/host.pem";
+    hostPubkey = config.node.secretsDir + "/host.pub";
     storageMode = "local";
     generatedSecretsDir = inputs.self.outPath + "/secrets/generated/${config.node.name}";
     localStorageDir = inputs.self.outPath + "/secrets/rekeyed/${config.node.name}";

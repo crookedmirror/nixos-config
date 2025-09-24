@@ -1,3 +1,8 @@
 .direnv
 .envrc
 .pre-commit-config.yaml
+
+
+locals.nix
+ssh-identities
+*.txt

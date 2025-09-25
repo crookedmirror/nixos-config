@@ -37,11 +37,12 @@ in
     includes = [
       { path = "${inputs.catppuccin-delta}/catppuccin.gitconfig"; }
       {
-        condition = "hasconfig:remote.*.url:**github.com:*/*.git";
+        condition = "hasconfig:remote.*.url:**github.com:crookedmirror*/*.git";
         contents = {
           user = {
             email = "crookedmirror@xyz";
             name = "crookedmirror";
+            identityFile = "github";
           };
         };
       }

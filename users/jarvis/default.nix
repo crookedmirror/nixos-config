@@ -13,14 +13,6 @@ rec {
   nonNixos.enable = true;
 
   repo.secretFiles.user-myuser = ./secrets/user.nix.age;
-  age.secrets.ssh-keys = {
-    rekeyFile = ./secrets/ssh-keys.tar.age;
-    mode = "640";
-  };
-
-  # Only needed for home.activation.agenix / Not needed for NixOs
-  # age.identityPaths = [ "${config.home.homeDirectory}/.ssh/host" ];
-
   userSecretsName = "user-myuser";
 
   nixGL = {
@@ -56,12 +48,6 @@ rec {
           echo "zsh is now set as default shell !"
         fi
       '';
-
-      # Hack to make agenix secrets work with home-manager
-      #agenix = lib.hm.dag.entryAnywhere config.systemd.user.services.agenix.Service.ExecStart;
-      #installSshKeys = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      #  run cd /run/user/1000/agenix.d/* && ${lib.getExe pkgs.gnutar} xvf ssh-keys -C "$HOME/.ssh/"
-      #'';
     };
   };
 }

@@ -29,6 +29,8 @@
           age-plugin-tpm
 
           nix # Use the same nix as the one with nix-plugins
+          claude-code
+          claude-monitor
         ];
         commands = [
           {

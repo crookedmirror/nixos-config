@@ -9,7 +9,7 @@
 let
   username = "jarvis";
 in
-rec {
+{
   nonNixos.enable = true;
 
   repo.secretFiles.user-myuser = ./secrets/user.nix.age;
@@ -32,6 +32,9 @@ rec {
     username = "${username}";
     homeDirectory = "/home/${username}";
     stateVersion = "24.11";
+    sessionVariables = {
+      "OTEL_EXPORTER_OTLP_ENDPOINT" = config.userSecrets.otel.endpoint;
+    };
 
     activation = {
       make-zsh-default-shell = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

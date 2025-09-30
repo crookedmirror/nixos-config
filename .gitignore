@@ -2,7 +2,7 @@
 .envrc
 .pre-commit-config.yaml
 
-
 locals.nix
 ssh-identities
+*.tar
 *.txt

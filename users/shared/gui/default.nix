@@ -1,10 +1,10 @@
 {
   imports = [
-    ./alacritty
     ./librewolf.nix
     ./mpv
     ./spicetify.nix
     ./telegram.nix
+    ./foot.nix
   ];
 
 }

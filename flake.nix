@@ -23,44 +23,28 @@
     ayugram-desktop.url = "github:ndfined-crp/ayugram-desktop/release";
 
     #Themes
-    catppuccin-zsh-fsh = {
-      url = "github:catppuccin/zsh-fsh";
-      flake = false;
-    };
-    catppuccin-eza = {
-      url = "github:catppuccin/eza";
-      flake = false;
-    };
-    catppuccin-bat = {
-      url = "github:catppuccin/bat";
-      flake = false;
-    };
-    catppuccin-lazygit = {
-      url = "github:catppuccin/lazygit";
-      flake = false;
-    };
-    catppuccin-delta = {
-      url = "github:catppuccin/delta";
-      flake = false;
-    };
-    catppuccin-alacritty = {
-      url = "github:catppuccin/alacritty";
-      flake = false;
-    };
-    catppuccin-dircolors = {
-      url = "github:wochap/dircolors";
-      flake = false;
-    };
-    catppuccin-tmux = {
-      url = "github:catppuccin/tmux";
-      flake = false;
-    };
+    catppuccin-zsh-fsh.url = "github:catppuccin/zsh-fsh";
+    catppuccin-zsh-fsh.flake = false;
+    catppuccin-eza.url = "github:catppuccin/eza";
+    catppuccin-eza.flake = false;
+    catppuccin-bat.url = "github:catppuccin/bat";
+    catppuccin-bat.flake = false;
+    catppuccin-lazygit.url = "github:catppuccin/lazygit";
+    catppuccin-lazygit.flake = false;
+    catppuccin-delta.url = "github:catppuccin/delta";
+    catppuccin-delta.flake = false;
+    catppuccin-dircolors.url = "github:wochap/dircolors";
+    catppuccin-dircolors.flake = false;
+    catppuccin-tmux.url = "github:catppuccin/tmux";
+    catppuccin-tmux.flake = false;
+    catppuccin-foot.url = "github:catppuccin/foot";
+    catppuccin-foot.flake = false;
+
     phoenix = {
       url = "git+https://gitlab.com/celenityy/Phoenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     mdatp.url = "github:NitorCreations/nix-mdatp";
-
   };
 
   outputs =

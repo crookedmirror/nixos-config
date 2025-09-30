@@ -37,7 +37,6 @@ in
       run-shell ${config.xdg.configHome}/tmux/plugins/catppuccin/catppuccin.tmux
       run-shell ${config.xdg.configHome}/tmux/plugins/status-bar/status-bar.tmux
 
-      set -g mouse off
       source-file ${config.xdg.configHome}/tmux/config.conf
     '';
     "tmux/config.conf".source = ./config.conf;

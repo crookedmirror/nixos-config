@@ -25,6 +25,7 @@ in
 {
   imports = [
     ../modules
+    ./dev
     ./gui
     ./cli
     ./tui
@@ -54,11 +55,11 @@ in
     nerd-fonts.hack
     fzf
     traceroute
+    bluetui
 
     thunderbird
 
     arduino-ide
-    python314
     tree
 
     qbittorrent

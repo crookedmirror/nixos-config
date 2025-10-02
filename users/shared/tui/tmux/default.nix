@@ -14,6 +14,8 @@ in
   };
 
   xdg.configFile = {
+    "tmux/plugins/tmux-sessionx".source =
+      "${pkgs.tmuxPlugins.tmux-sessionx}/share/tmux-plugins/sessionx";
     "tmux/plugins/catppuccin".source = inputs.catppuccin-tmux;
     "tmux/plugins/sensible".source = "${pkgs.tmuxPlugins.sensible}/share/tmux-plugins/sensible";
     "tmux/tmux.conf".text = ''

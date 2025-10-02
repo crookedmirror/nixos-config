@@ -17,8 +17,6 @@
     pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
     nixgl.url = "github:nix-community/nixGL";
 
-    opcode.url = "github:getmissionctrl/claudia";
-
     spicetify.url = "github:Gerg-L/spicetify-nix";
     ayugram-desktop.url = "github:ndfined-crp/ayugram-desktop/release";
 

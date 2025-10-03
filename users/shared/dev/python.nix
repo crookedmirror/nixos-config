@@ -8,6 +8,10 @@ let
       poetry-core
       requests
       python-dotenv
+      pydantic
+      pillow
+      ollama
+      tabulate
     ]
   );
 in

@@ -34,6 +34,7 @@ in
     stateVersion = "24.11";
     sessionVariables = {
       "OTEL_EXPORTER_OTLP_ENDPOINT" = config.userSecrets.otel.endpoint;
+      "SNYK_TOKEN" = config.userSecrets.snyk.api_key;
     };
 
     activation = {

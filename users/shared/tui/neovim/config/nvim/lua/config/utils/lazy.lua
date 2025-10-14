@@ -1,0 +1,20 @@
+local M = {}
+
+M.install = function()
+  local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
+  if not vim.uv.fs_stat(lazypath) then
+    local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+    vim.fn.system { "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath }
+  end
+  vim.opt.rtp:prepend(lazypath)
+end
+
+M.on_load = function(...)
+  require("lazyvim.util").on_load(...)
+end
+
+M.has = function(...)
+  return require("lazyvim.util").has(...)
+end
+
+return M

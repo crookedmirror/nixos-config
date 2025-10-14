@@ -1,4 +1,5 @@
 {
+  lib,
   config,
   pkgs,
   inputs,
@@ -7,6 +8,8 @@
 }:
 let
   inherit (globals.theme) colors;
+  inherit (globals.myuser) configDirectory;
+  inherit (lib._custom) relativeSymlink;
 in
 {
   programs.tmux = {
@@ -41,11 +44,9 @@ in
 
       source-file ${config.xdg.configHome}/tmux/config.conf
     '';
-    "tmux/config.conf".source = ./config.conf;
-    "tmux/plugins/status-bar/status-bar.tmux" = {
-      source = ./status-bar.tmux;
-      executable = true;
-    };
+    "tmux/config.conf".source = relativeSymlink configDirectory ./config/config.conf;
+    "tmux/plugins/status-bar/status-bar.tmux".source =
+      relativeSymlink configDirectory ./config/status-bar.tmux;
   };
 
 }

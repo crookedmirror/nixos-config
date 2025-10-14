@@ -75,7 +75,7 @@
                 }
                 {
                   name = "scraper";
-                  value = "google";
+                  value = "mullvad_google";
                 }
                 {
                   name = "nsfw";

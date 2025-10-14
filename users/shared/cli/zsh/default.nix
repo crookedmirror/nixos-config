@@ -7,6 +7,9 @@
   ...
 }:
 let
+  inherit (globals.myuser) configDirectory;
+  inherit (lib._custom) relativeSymlink;
+
   fshPlugin = {
     name = "zsh-fast-syntax-highlighting";
     src = pkgs.zsh-fast-syntax-highlighting;
@@ -75,8 +78,8 @@ in
       '')
       ''
         source ${historyPlugin.src}/sqlite-history.zsh
-        source ${config.xdg.configHome}/zsh/config.zsh
-        source ${config.xdg.configHome}/zsh/functions.zsh
+        source ${relativeSymlink configDirectory ./config/config.zsh}
+        source ${relativeSymlink configDirectory ./config/functions.zsh}
 
         # Syntax highlighting
         zle_highlight=('paste:fg=white,bold') # Remove background from pasted text
@@ -90,15 +93,12 @@ in
         # ZSH in Nix-Shell
         source ${pkgs.zsh-nix-shell}/share/zsh-nix-shell/nix-shell.plugin.zsh
 
-        source ${config.xdg.configHome}/zsh/key-bindings.zsh                                                       		
+        source ${relativeSymlink configDirectory ./config/key-bindings.zsh}                                                      		
       ''
     ];
   };
 
   xdg.configFile = {
-    "zsh/.p10k.zsh".source = ./dotfiles/.p10k.zsh;
-    "zsh/config.zsh".source = ./dotfiles/config.zsh;
-    "zsh/functions.zsh".source = ./dotfiles/functions.zsh;
-    "zsh/key-bindings.zsh".source = ./dotfiles/key-bindings.zsh;
+    "zsh/.p10k.zsh".source = relativeSymlink configDirectory ./config/.p10k.zsh;
   };
 }

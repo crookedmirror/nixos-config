@@ -1,23 +1,18 @@
 { pkgs, ... }:
 let
-  python = pkgs.python312.withPackages (
+  python-final = pkgs.python314.withPackages (
     ps: with ps; [
-      uv
-      pip
-
-      poetry-core
-      requests
-      python-dotenv
-      pydantic
-      pillow
-      ollama
-      tabulate
+      uv # pip replacement
     ]
   );
 in
 {
-  home.packages = [
-    python
-    pkgs.poetry
+  home.packages = with pkgs; [
+    python-final
+
+    # Python tools
+    pipx
+    pipenv
+    poetry
   ];
 }

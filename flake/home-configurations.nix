@@ -18,17 +18,27 @@
         nameValuePair
         ;
 
-      makeHomeConfiguration = inputs.home-manager.lib.homeManagerConfiguration {
+      makeHomeConfiguration = inputs.home-manager.lib.homeManagerConfiguration rec {
         pkgs = inputs.nixpkgs.legacyPackages."x86_64-linux";
-
         extraSpecialArgs = {
           inherit inputs;
           inherit (config) globals;
           overlays = [ (import ../packages/default.nix) ];
+          lib = inputs.nixpkgs.lib.extend (
+            final: prev: {
+              hm = inputs.home-manager.lib.hm;
+              _custom = import ../lib {
+                inherit inputs;
+                inherit lib;
+                inherit pkgs;
+              };
+            }
+          );
         };
         modules = [
           ../config/non-nix.nix
           ../config/secrets.nix
+          ../modules/symlinks.nix
           ../modules/meta.nix
           ../modules/secrets.nix
           ../users/jarvis

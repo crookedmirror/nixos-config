@@ -4,7 +4,7 @@
     ./mpv
     ./spicetify.nix
     ./telegram.nix
-    ./foot.nix
+    ./foot
   ];
 
 }

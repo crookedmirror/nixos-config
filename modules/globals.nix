@@ -19,6 +19,11 @@ in
               type = lib.types.str;
               description = "my unix username.";
             };
+            configDirectory = lib.mkOption {
+              default = "/home/myUsername/nixos-config";
+              type = lib.types.str;
+              description = "directory containing system flake.";
+            };
           };
           theme = {
             preferDark = lib.mkOption {

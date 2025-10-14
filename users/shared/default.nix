@@ -97,6 +97,5 @@ in
 
   programs = {
     gpg.enable = true;
-    neovim.enable = true;
   };
 }

@@ -10,9 +10,12 @@ return {
     event = { "LazyFile", "VeryLazy" },
     cmd = { "TSUpdate", "TSInstall", "TSLog", "TSUninstall" },
     opts_extend = { "ensure_installed" },
-    opts = {
-      ensure_installed = {},
-    },
+    opts = function(_, opts)
+      -- Replace LazyVim's ensure_installed with our own list
+      -- TODO: remove once got rid of bloated LazyVim
+      opts.ensure_installed = { "toml" }
+      return opts
+    end,
     config = function(_, opts)
       local TS = require "nvim-treesitter"
       local TSUtils = require "utils-plugins.treesitter"

@@ -42,6 +42,8 @@
       url = "git+https://gitlab.com/celenityy/Phoenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    zsh-defer.url = "github:romkatv/zsh-defer?rev=1c75faff4d8584afe090b06db11991c8c8d62055";
+    zsh-defer.flake = false;
     mdatp.url = "github:NitorCreations/nix-mdatp";
   };
 

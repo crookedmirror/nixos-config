@@ -886,7 +886,8 @@
         "phoenix": "phoenix",
         "pre-commit-hooks": "pre-commit-hooks_2",
         "spicetify": "spicetify",
-        "treefmt-nix": "treefmt-nix_2"
+        "treefmt-nix": "treefmt-nix_2",
+        "zsh-defer": "zsh-defer"
       }
     },
     "rust-overlay": {
@@ -1025,6 +1026,23 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
+    "zsh-defer": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1699174976,
+        "narHash": "sha256-Kus+yJGJTsMcrItfoMJZ9pGaH0nfB6mChS9a+CNAAmc=",
+        "owner": "romkatv",
+        "repo": "zsh-defer",
+        "rev": "1c75faff4d8584afe090b06db11991c8c8d62055",
+        "type": "github"
+      },
+      "original": {
+        "owner": "romkatv",
+        "repo": "zsh-defer",
+        "rev": "1c75faff4d8584afe090b06db11991c8c8d62055",
         "type": "github"
       }
     }

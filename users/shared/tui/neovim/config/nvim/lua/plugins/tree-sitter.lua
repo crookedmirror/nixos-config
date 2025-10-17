@@ -1,3 +1,5 @@
+local lazy_utils = require "utils.lazy"
+
 return {
   {
     "nvim-treesitter/nvim-treesitter",
@@ -13,7 +15,7 @@ return {
     opts = function(_, opts)
       -- Replace LazyVim's ensure_installed with our own list
       -- TODO: remove once got rid of bloated LazyVim
-      opts.ensure_installed = { "toml", "lua"  }
+      opts.ensure_installed = { "toml", "lua" }
       return opts
     end,
     config = function(_, opts)
@@ -106,5 +108,85 @@ return {
         end,
       })
     end,
+  },
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    event = "VeryLazy",
+    keys = {
+      {
+        "gC",
+        function()
+          require("treesitter-context").go_to_context(vim.v.count1)
+        end,
+        mode = "n",
+        desc = "GoTo Context",
+      },
+    },
+    opts = function()
+      local tsc = require "treesitter-context"
+      Snacks.toggle({
+        name = "Treesitter Context",
+        get = tsc.enabled,
+        set = function(state)
+          if state then
+            tsc.enable()
+          else
+            tsc.disable()
+          end
+        end,
+      }):map "<leader>ut"
+
+      return {
+        mode = "cursor",
+        max_lines = 3,
+        zindex = 43,
+        line_numbers = true,
+        enable_hl = false,
+      }
+    end,
+  },
+  {
+    "windwp/nvim-ts-autotag",
+    event = { "InsertEnter", "VeryLazy" },
+    config = function()
+      lazy_utils.on_load("nvim-treesitter", function()
+        require("nvim-ts-autotag").setup()
+      end)
+    end,
+  },
+  {
+    "aaronik/treewalker.nvim",
+    event = "VeryLazy",
+    keys = {
+      {
+        "<A-j>",
+        "<cmd>Treewalker Down<CR>",
+        mode = { "n", "v" },
+        desc = "Treewalker Down",
+      },
+      {
+        "<A-k>",
+        "<cmd>Treewalker Up<CR>",
+        mode = { "n", "v" },
+        desc = "Treewalker Up",
+      },
+      {
+        "<A-h>",
+        "<cmd>Treewalker Left<CR>",
+        mode = { "n", "v" },
+        desc = "Treewalker Left",
+      },
+      {
+        "<A-l>",
+        "<cmd>Treewalker Right<CR>",
+        mode = { "n", "v" },
+        desc = "Treewalker Right",
+      },
+    },
+    opts = {
+      highlight = true,
+      highlight_duration = 100,
+      highlight_group = "Highlight",
+    },
   },
 }

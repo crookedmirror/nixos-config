@@ -83,7 +83,7 @@
                 }
                 {
                   name = "country";
-                  value = "ru";
+                  value = "us";
                 }
               ];
             }

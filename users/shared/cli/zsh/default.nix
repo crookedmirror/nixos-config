@@ -39,7 +39,6 @@ let
   };
 in
 {
-
   home.packages = with pkgs; [
     sqlite-interactive
     zsh-completions
@@ -63,6 +62,7 @@ in
       setopt GLOB_DOTS # show dotfiles in completion menus
       zstyle ':autocomplete:key-bindings' enabled no
       source ${pkgs.zsh-autocomplete}/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+      source ${inputs.zsh-defer}/zsh-defer.plugin.zsh
     '';
     initContent = lib.mkMerge [
       (lib.mkBefore ''
@@ -93,7 +93,7 @@ in
         # ZSH in Nix-Shell
         source ${pkgs.zsh-nix-shell}/share/zsh-nix-shell/nix-shell.plugin.zsh
 
-        source ${relativeSymlink configDirectory ./config/key-bindings.zsh}                                                      		
+        source ${relativeSymlink configDirectory ./config/key-bindings.zsh}
       ''
     ];
   };

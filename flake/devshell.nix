@@ -7,11 +7,7 @@
   ];
 
   perSystem =
-    {
-      config,
-      pkgs,
-      ...
-    }:
+    { config, pkgs, ... }:
     {
       pre-commit.settings.hooks.treefmt.enable = true;
       treefmt = {

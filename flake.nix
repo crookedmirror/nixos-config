@@ -49,21 +49,15 @@
 
   outputs =
     inputs:
-    inputs.flake-parts.lib.mkFlake
-      {
-        inherit inputs;
-      }
-      {
-        imports = [
-          ./flake/agenix-rekey.nix
-          ./flake/devshell.nix
-          ./flake/globals.nix
-          ./flake/pkgs.nix
-          ./flake/hosts.nix
-          ./flake/home-configurations.nix
-        ];
-        systems = [
-          "x86_64-linux"
-        ];
-      };
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      imports = [
+        ./flake/agenix-rekey.nix
+        ./flake/devshell.nix
+        ./flake/globals.nix
+        ./flake/pkgs.nix
+        ./flake/hosts.nix
+        ./flake/home-configurations.nix
+      ];
+      systems = [ "x86_64-linux" ];
+    };
 }

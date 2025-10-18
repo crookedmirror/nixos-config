@@ -15,7 +15,7 @@ return {
     opts = function(_, opts)
       -- Replace LazyVim's ensure_installed with our own list
       -- TODO: remove once got rid of bloated LazyVim
-      opts.ensure_installed = { "toml", "lua" }
+      opts.ensure_installed = { "toml", "lua", "nix" }
       return opts
     end,
     config = function(_, opts)

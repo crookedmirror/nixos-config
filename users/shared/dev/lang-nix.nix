@@ -4,5 +4,6 @@
     statix
     nixfmt
     nixd
+    deadnix
   ];
 }

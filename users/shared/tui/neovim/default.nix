@@ -1,6 +1,4 @@
-# Inspired by https://github.com/ayamir/nvimdots/blob/main/nixos/neovim/default.nix
 {
-  config,
   globals,
   lib,
   pkgs,
@@ -21,8 +19,8 @@
     withRuby = false;
 
     extraPackages = with pkgs; [
-      tree-sitter # nvim-treesitter
-      ast-grep # searching
+      tree-sitter
+      ast-grep
     ];
   };
   xdg.configFile = {

@@ -3,7 +3,6 @@
   lib,
   globals,
   config,
-  inputs,
   ...
 }:
 let

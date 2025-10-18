@@ -1,7 +1,6 @@
 {
   lib,
   globals,
-  config,
   inputs,
   pkgs,
   ...

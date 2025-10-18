@@ -1,4 +1,4 @@
-{ inputs, globals, ... }:
+{ inputs, ... }:
 {
   imports = [
     (builtins.extraBuiltins.rageImportEncrypted inputs.self.secretsConfig.masterIdentities ./secrets/globals.nix.age)

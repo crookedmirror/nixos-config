@@ -38,8 +38,8 @@ return {
     optional = true,
     opts = {
       linters_by_ft = {
-        -- TODO: add deadnix
-        nix = { "statix", "nix" },
+        -- TODO: deadnix can be a good addition
+        nix = { "statix", "nix", "deadnix" },
       },
     },
   },

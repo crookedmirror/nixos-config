@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ pkgs, ... }:
 let
   python-final = pkgs.python311.withPackages (
     ps: with ps; [

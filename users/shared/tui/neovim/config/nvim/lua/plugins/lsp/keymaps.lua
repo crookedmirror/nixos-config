@@ -73,6 +73,7 @@ M.get = function()
       end,
       desc = "Hover",
     },
+    -- TODO: hide_signature on cursor move
     {
       "gh",
       function()

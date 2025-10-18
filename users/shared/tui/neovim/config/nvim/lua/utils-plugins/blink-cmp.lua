@@ -64,6 +64,15 @@ M.show_signature = function()
   return true
 end
 
+M.hide_signature = function()
+  local cmp = require "blink.cmp"
+  if not cmp.is_signature_visible() then
+    return
+  end
+  cmp.hide_signature()
+  return true
+end
+
 M.scroll_signature_up = function(count)
   local cmp = require "blink.cmp"
   local config = require("blink.cmp.config").signature

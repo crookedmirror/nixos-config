@@ -2,6 +2,9 @@ local M = {}
 
 M.diagnostic = {
   Error = "",
+  Warn = "",
+  Info = "",
+  Hint = "󰌶",
 }
 
 M.lsp_kind = {

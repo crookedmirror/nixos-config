@@ -61,9 +61,9 @@ return {
         signs = {
           text = {
             [vim.diagnostic.severity.ERROR] = icons_constants.diagnostic.Error,
-            [vim.diagnostic.severity.WARN] = "",
-            [vim.diagnostic.severity.HINT] = "",
-            [vim.diagnostic.severity.INFO] = "",
+            [vim.diagnostic.severity.WARN] = icons_constants.diagnostic.Warn,
+            [vim.diagnostic.severity.HINT] = icons_constants.diagnostic.Hint,
+            [vim.diagnostic.severity.INFO] = icons_constants.diagnostic.Info,
           },
         },
         severity_sort = true,

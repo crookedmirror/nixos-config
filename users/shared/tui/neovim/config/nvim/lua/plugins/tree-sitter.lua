@@ -15,7 +15,7 @@ return {
     opts = function(_, opts)
       -- Replace LazyVim's ensure_installed with our own list
       -- TODO: remove once got rid of bloated LazyVim
-      opts.ensure_installed = { "toml", "lua", "nix" }
+      opts.ensure_installed = { "toml", "lua", "nix", "bash", "just" }
       return opts
     end,
     config = function(_, opts)
@@ -58,6 +58,11 @@ return {
           end
         end,
       })
+
+      vim.treesitter.language.register("bash", "zsh")
+
+      -- add toggle keymap for treesitter
+      Snacks.toggle.treesitter():map "<leader>uT"
     end,
   },
   {

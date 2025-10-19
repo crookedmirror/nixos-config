@@ -4,19 +4,9 @@
     {
       config,
       lib,
-      system,
       ...
     }:
     let
-      inherit (lib)
-        concatMapAttrs
-        filterAttrs
-        flip
-        genAttrs
-        mapAttrs
-        mapAttrs'
-        nameValuePair
-        ;
 
       makeHomeConfiguration = inputs.home-manager.lib.homeManagerConfiguration rec {
         pkgs = inputs.nixpkgs.legacyPackages."x86_64-linux";

@@ -1,24 +1,24 @@
 local constants = require "constants"
 
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  constants.first_install = true;
+local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
+if not vim.uv.fs_stat(lazypath) then
+  constants.first_install = true
 
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-  if vim.v.shell_error ~= 0 then
-    vim.api.nvim_echo({
-      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out, "WarningMsg" },
-      { "\nPress any key to exit..." },
-    }, true, {})
-    vim.fn.getchar()
-    os.exit(1)
-  end
+  vim.fn.system { "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath }
+  _G.LazyVim = require "lazyvim.util"
+  -- Override LazyVim lsp utils
+  local lazyVimLspUtil = require "lazyvim.util.lsp"
+  lazyVimLspUtil.format = require("utils.lsp").format
+  lazyVimLspUtil.formatter = require("utils.lsp").formatter
 end
 vim.opt.rtp:prepend(lazypath)
+local lazyvim_path = vim.fn.stdpath "data" .. "/lazy/LazyVim"
+if vim.uv.fs_stat(lazyvim_path) then
+  vim.opt.rtp:prepend(lazyvim_path)
+end
 
-require("lazy").setup({
+require("lazy").setup {
   spec = {
     -- add LazyVim and import its plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
@@ -53,4 +53,4 @@ require("lazy").setup({
       },
     },
   },
-})
+}

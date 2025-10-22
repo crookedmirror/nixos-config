@@ -9,7 +9,10 @@ let
   inherit (globals.theme) colors;
 in
 {
-  home.packages = with pkgs; [ foot ];
+  home.packages = with pkgs; [
+    foot
+    libsixel
+  ];
 
   xdg.configFile."foot/foot.ini".text = ''
     ${builtins.readFile "${inputs.catppuccin-foot}/themes/catppuccin-${colors.flavour}.ini"}

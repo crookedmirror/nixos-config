@@ -5,5 +5,6 @@
     ./lang-nix.nix
     ./lang-web.nix
     ./lang-python.nix
+    ./lang-misc.nix
   ];
 }

@@ -17,6 +17,7 @@
       google-container
       octotree
       surfingkeys
+      noscript
     ];
     profiles.default.search = {
       force = true;

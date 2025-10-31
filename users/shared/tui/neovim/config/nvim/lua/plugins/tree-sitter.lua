@@ -29,6 +29,7 @@ return {
         "bash",
         "just",
         "yaml",
+        "sql"
       }
       return opts
     end,

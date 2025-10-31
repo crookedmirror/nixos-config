@@ -62,7 +62,6 @@ in
     tree
 
     qbittorrent
-    #grayjay
 
     nix-tree
     nix-top_abandoned # chaotic
@@ -72,7 +71,6 @@ in
     # Privacy
     keepassxc
     feather
-    tor-browser
 
     # Custom desktop applications
     mpv-hq-entry
@@ -80,7 +78,7 @@ in
 
   home.file = {
     ".bashrc".text = ''
-      unset HISTFILE
+      export HISTFILE=/dev/null
     '';
     ".bash_profile".text = ''
       [[ -f ~/.bashrc ]] && . ~/.bashrc

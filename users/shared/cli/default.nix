@@ -9,5 +9,6 @@
     ./zsh
     ./zoxide.nix
     ./skim.nix
+    ./fzf.nix
   ];
 }

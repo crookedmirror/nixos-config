@@ -51,7 +51,6 @@ in
     enable = true;
     dotDir = "${config.xdg.configHome}/zsh";
     history = {
-      #path = "${config.xdg.dataHome}/zsh/history";
       save = 1000500;
       size = 1000000;
     };

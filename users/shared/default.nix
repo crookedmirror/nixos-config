@@ -71,8 +71,7 @@ in
     # Privacy
     keepassxc
     feather
-
-    # Custom desktop applications
+    (if config.nonNixos.enable then (config.lib.nixGL.wrap pkgs.wine) else pkgs.wine)
     mpv-hq-entry
   ];
 

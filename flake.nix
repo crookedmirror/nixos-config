@@ -5,6 +5,8 @@
     # Upstream packages
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     nur.url = "github:nix-community/NUR";
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
 
     nixpkgs.follows = "chaotic/nixpkgs";
     home-manager.follows = "chaotic/home-manager";

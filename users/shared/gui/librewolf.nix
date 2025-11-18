@@ -65,6 +65,34 @@
           ];
           definedAliases = [ "np" ];
         };
+        "Nix & Home-Manager options" = {
+          urls = [
+            {
+              template = "https://mynixos.com/search";
+              params = [
+                {
+                  name = "q";
+                  value = "{searchTerms}";
+                }
+              ];
+            }
+          ];
+          definedAliases = [ "no" ];
+        };
+        "Nix library" = {
+          urls = [
+            {
+              template = "https://noogle.dev/q";
+              params = [
+                {
+                  name = "term";
+                  value = "{searchTerms}";
+                }
+              ];
+            }
+          ];
+          definedAliases = [ "nl" ];
+        };
         "4get.hackliberty.org" = {
           urls = [
             {
@@ -76,7 +104,7 @@
                 }
                 {
                   name = "scraper";
-                  value = "mullvad_google";
+                  value = "google";
                 }
                 {
                   name = "nsfw";
@@ -84,7 +112,7 @@
                 }
                 {
                   name = "country";
-                  value = "us";
+                  value = "ch";
                 }
               ];
             }

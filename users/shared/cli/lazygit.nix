@@ -24,11 +24,12 @@ in
     settings = {
       git = {
         autofetch = false;
-        paging = {
-          pager = ''
-            	    delta --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}";
-            	  '';
-        };
+        pagers = [
+          {
+            pager = "delta --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format=\"lazygit-edit://{path}:{line}\"";
+            colorArg = "always";
+          }
+        ];
       };
     };
   };

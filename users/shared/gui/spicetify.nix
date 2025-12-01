@@ -1,12 +1,11 @@
 {
-  lib,
   pkgs,
   inputs,
   globals,
   ...
 }:
 {
-  programs.spicetify = with lib.mkDefault; {
+  programs.spicetify = {
     enable = true;
     enabledCustomApps = with inputs.spicetify.legacyPackages.${pkgs.system}.apps; [
       marketplace
@@ -15,7 +14,7 @@
       adblock # hide ads
       hidePodcasts # hide podcasts
       shuffle # agnostic shuffle
-      fullScreen # TV Mod
+      #fullScreen # TV Mod - Conflicts with keyboardShortcuts
       bookmark # Bookmark any page in spotify
       keyboardShortcut # vim like controls
     ];

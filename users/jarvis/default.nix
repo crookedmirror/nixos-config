@@ -33,8 +33,9 @@ in
     homeDirectory = "/home/${username}";
     stateVersion = "24.11";
     sessionVariables = {
-      "OTEL_EXPORTER_OTLP_ENDPOINT" = config.userSecrets.otel.endpoint;
-      "SNYK_TOKEN" = config.userSecrets.snyk.api_key;
+      OTEL_EXPORTER_OTLP_ENDPOINT = config.userSecrets.otel.endpoint;
+      OTEL_EXPORTER_OTLP_INSECURE = "true";
+      SNYK_TOKEN = config.userSecrets.snyk.api_key;
     };
 
     activation = {

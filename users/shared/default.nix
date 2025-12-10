@@ -41,6 +41,10 @@ in
     mv = "mv -vi";
   };
 
+  home.sessionVariables = {
+    EDITOR = "nvim";
+  };
+
   home.packages = with pkgs; [
     btop
     fd

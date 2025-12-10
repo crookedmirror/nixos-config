@@ -1,6 +1,6 @@
 {
   imports = [
-    ./librewolf.nix
+    ./firefox
     ./mpv
     ./spicetify.nix
     ./telegram.nix

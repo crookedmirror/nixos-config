@@ -10,7 +10,6 @@
       ripgrep
     ];
   };
-
   programs.neovim = {
     enable = true;
 

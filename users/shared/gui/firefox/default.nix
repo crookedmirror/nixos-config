@@ -8,6 +8,7 @@
       "privacy.sanitize.pending" = "[]";
       "privacy.sanitize.sanitizeOnShutdown" = false;
       "browser.startup.page" = 3;
+      "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
     };
     profiles.default.extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
       ublock-origin
@@ -19,9 +20,10 @@
       surfingkeys
       noscript
     ];
+    profiles.default.userChrome = builtins.readFile ./hideToolbar.css;
     profiles.default.search = {
       force = true;
-      default = "4get.hackliberty.org";
+      default = "4get";
 
       engines = {
         #TODO: Hide Mojeek, MetaGer, StartPage and DuckDuckGo Lite
@@ -93,10 +95,10 @@
           ];
           definedAliases = [ "nl" ];
         };
-        "4get.hackliberty.org" = {
+        "4get" = {
           urls = [
             {
-              template = "https://4get.hackliberty.org/web";
+              template = "https://4get.canine.tools/web";
               params = [
                 {
                   name = "s";
@@ -117,32 +119,6 @@
               ];
             }
           ];
-        };
-        "Neco LOL 4GET" = {
-          urls = [
-            {
-              template = "https://4get.neco.lol/web";
-              params = [
-                {
-                  name = "s";
-                  value = "{searchTerms}";
-                }
-                {
-                  name = "scraper";
-                  value = "google";
-                }
-                {
-                  name = "nsfw";
-                  value = "yes";
-                }
-                {
-                  name = "country";
-                  value = "ru";
-                }
-              ];
-            }
-          ];
-          definedAliases = [ "neco" ];
         };
         "Wikipedia (ru)" = {
           urls = [

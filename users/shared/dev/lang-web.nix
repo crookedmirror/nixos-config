@@ -1,11 +1,8 @@
 { pkgs, ... }:
 {
   home.packages = with pkgs; [
-    nodejs_20
-
+    nodejs_24
     deno
-
-    nodePackages.ts-node # nvim-dap
     typescript # nvim-lspconfig
   ];
 }

@@ -55,6 +55,8 @@ in
     fzf
     traceroute
     bluetui
+    vlc
+    (if config.nonNixos.enable then (config.lib.nixGL.wrap pkgs.slack) else pkgs.slack)
 
     thunderbird
 

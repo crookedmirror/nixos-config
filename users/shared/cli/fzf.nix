@@ -11,6 +11,7 @@
     enableZshIntegration = true;
     defaultOptions = [
       "--no-height"
+      "--walker-skip=.git,.direnv,node_modules"
       "--tabstop '2'"
       "--cycle"
       "--layout 'default'"
@@ -33,13 +34,8 @@
     ];
     # CTRL-T - Paste the selected file path(s) into the command line
     fileWidgetOptions = [
-      "--preview '(bat --style=numbers --color=always {} || lsd -l -A --ignore-glob=.git --tree --depth=2 --color=always --blocks=size,name {}) 2> /dev/null | head -200'"
+      "--preview '(bat --style=numbers {} || eza --all --long --ignore-glob=.git|.direnv --tree --level=2 --blocksize {}) 2> /dev/null | head -200'"
       "--preview-window 'right:border-left:50%:<40(right:border-left:50%:hidden)'"
-    ];
-    # CTRL-R - Paste the selected command from history into the command line
-    historyWidgetOptions = [
-      "--preview 'echo {} | sed \\\"s/^ *\\([0-9|*]\\+\\) *//\\\" | bat --plain --language=sh --color=always'"
-      "--preview-window 'down:border-top:4:<4(down:border-top:4:hidden)'"
     ];
     # ALT-C - cd into the selected directory
     changeDirWidgetOptions = [

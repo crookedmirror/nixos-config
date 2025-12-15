@@ -22,6 +22,7 @@
               nixpkgs.config.allowUnfree = true;
               nixpkgs.overlays = [ (import ../packages/default.nix) ];
             }
+            inputs.disko.nixosModules.disko
             ../hosts/${name}
           ];
         };

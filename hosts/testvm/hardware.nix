@@ -10,7 +10,10 @@
     "ahci"
   ];
   boot.kernelModules = [ "kvm-intel" ];
+
+  # ZFS support
   boot.supportedFilesystems = [ "zfs" ];
+  boot.initrd.supportedFilesystems = [ "zfs" ]; # Critical for root on ZFS
 
   networking.useDHCP = lib.mkDefault true;
 }

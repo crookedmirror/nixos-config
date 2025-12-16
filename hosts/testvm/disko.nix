@@ -8,7 +8,7 @@
           type = "gpt";
           partitions = {
             boot = {
-              size = "1G";
+              size = "5G";
               type = "EF00";
               content = {
                 type = "filesystem";
@@ -37,7 +37,6 @@
         };
 
         datasets = {
-          # Root (ephemeral - wipes on reboot)
           "ROOT" = {
             type = "zfs_fs";
             options.mountpoint = "none";
@@ -50,14 +49,12 @@
             postCreateHook = "zfs snapshot zroot/ROOT/empty@start";
           };
 
-          # Nix store (persistent)
           "ROOT/nix" = {
             type = "zfs_fs";
             options.mountpoint = "legacy";
             mountpoint = "/nix";
           };
 
-          # Persistent data
           "data" = {
             type = "zfs_fs";
             options.mountpoint = "none";

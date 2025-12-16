@@ -21,6 +21,9 @@
     volume = "zroot/ROOT/empty";
     snapshot = "start";
   };
+  boot.kernelPackages = lib.mkOverride 99 pkgs.linuxPackages_cachyos-lto;
+  boot.zfs.package = lib.mkOverride 99 pkgs.zfs_cachyos;
+  services.zfs.trim.enable = false;
 
   # Minimal user setup
   users.users.test = {

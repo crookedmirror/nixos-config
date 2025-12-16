@@ -1,4 +1,9 @@
-{ inputs, pkgs, ... }:
+{
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
 {
   imports = [
     inputs.chaotic.nixosModules.default
@@ -8,7 +13,7 @@
 
   nixpkgs.hostPlatform = "x86_64-linux";
   networking.hostName = "testvm";
-  networking.hostId = "12345678"; # Required for ZFS
+  networking.hostId = "84168d59"; # Required for ZFS (hex of pool's hostid)
   system.stateVersion = "25.05";
 
   # Bootloader

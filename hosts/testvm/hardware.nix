@@ -5,9 +5,7 @@
   ];
 
   boot.initrd.availableKernelModules = [
-    "virtio_pci"
-    "virtio_blk"
-    "ahci"
+    "virtio_scsi"
   ];
   boot.kernelModules = [ "kvm-intel" ];
 
@@ -16,7 +14,6 @@
     "zfs"
     "vfat"
   ];
-  boot.initrd.supportedFilesystems = [ "zfs" ]; # Critical for root on ZFS
 
   networking.useDHCP = lib.mkDefault true;
 }

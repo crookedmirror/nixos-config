@@ -14,7 +14,7 @@
   boot.initrd.availableKernelModules = [ "virtio_scsi" ];
   boot.initrd.kernelModules = [ ];
 
-  boot.kernelModules = [ "kvm-amd" ];
+  boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
   networking.useDHCP = lib.mkDefault true;

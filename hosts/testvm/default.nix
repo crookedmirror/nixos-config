@@ -20,8 +20,14 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
-  boot.zfs.package = config.boot.kernelPackages.zfs_cachyos;
+
+  boot.kernelPackages = lib.mkOverride 99 pkgs.cachyosKernels.linuxPackages-cachyos-latest;
+  boot.zfs.package = lib.mkOverride 99 config.boot.kernelPackages.zfs_cachyos;
+
+  specialisation.safe.configuration = {
+    boot.kernelPackages = lib.mkoverride 98 pkgs.linuxPackages;
+    boot.zfs.package = lib.mkoverride 98 pkgs.zfs;
+  };
 
   nix.settings.experimental-features = [
     "nix-command"

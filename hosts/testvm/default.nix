@@ -23,6 +23,11 @@
   boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
   boot.zfs.package = config.boot.kernelPackages.zfs_cachyos;
 
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+
   nix.settings.trusted-users = [
     "root"
     "@wheel"

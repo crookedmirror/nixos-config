@@ -25,8 +25,8 @@
   boot.zfs.package = lib.mkOverride 99 config.boot.kernelPackages.zfs_cachyos;
 
   specialisation.safe.configuration = {
-    boot.kernelPackages = lib.mkoverride 98 pkgs.linuxPackages;
-    boot.zfs.package = lib.mkoverride 98 pkgs.zfs;
+    boot.kernelPackages = lib.mkOverride 98 pkgs.linuxPackages;
+    boot.zfs.package = lib.mkOverride 98 pkgs.zfs;
   };
 
   nix.settings.experimental-features = [

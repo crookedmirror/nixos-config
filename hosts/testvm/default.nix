@@ -7,7 +7,7 @@
 }:
 {
   imports = [
-    inputs.chaotic.nixosModules.default
+    ../../modules/zfs-impermanence.nix
     ./hardware.nix
     ./disko.nix
   ];
@@ -39,7 +39,7 @@
     "@wheel"
   ];
 
-  chaotic.zfs-impermanence-on-shutdown = {
+  services.zfs-impermanence = {
     enable = true;
     volume = "zroot/ROOT/empty";
     snapshot = "start";

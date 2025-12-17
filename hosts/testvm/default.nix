@@ -7,7 +7,6 @@
 }:
 {
   imports = [
-    ../../modules/zfs-impermanence.nix
     ./hardware.nix
     ./disko.nix
   ];
@@ -39,11 +38,13 @@
     "@wheel"
   ];
 
-  services.zfs-impermanence = {
-    enable = true;
-    volume = "zroot/ROOT/empty";
-    snapshot = "start";
-  };
+  # inspired https://github.com/chaotic-cx/nyx/blob/aacb796ccd42be1555196c20013b9b674b71df75/modules/nixos/zfs-impermanence-on-shutdown.nix
+  systemd.shutdownRamfs.contents."/etc/systemd/system-shutdown/zfs-rollback".source =
+    pkgs.writeShellScript "zfs-rollback" ''
+      ${config.boot.zfs.package}/bin/zfs rollback -r zroot/ROOT/empty@start
+      ${config.boot.zfs.package}/bin/zpool sync
+    '';
+  systemd.shutdownRamfs.storePaths = [ "${config.boot.zfs.package}/bin/zfs" ];
 
   users.users.test = {
     isNormalUser = true;

@@ -5,25 +5,6 @@
     "DISABLE_COST_WARNINGS": "1",
     "DISABLE_TELEMETRY": "1"
   },
-  "statusLine": {
-    "type": "command",
-    "command": "~/.claude/statusline.sh"
-  },
-  "extraKnownMarketplaces": {
-    "owt-ai-marketplace": {
-      "source": {
-        "source": "git",
-        "url": "git@github.com:openwt/OWTAIMarketplace.git"
-      }
-    },
-    "claude-code-templates": {
-      "source": {
-        "source": "git",
-        "url": "https://github.com/davila7/claude-code-templates.git"
-      }
-    }
-  },
-  "alwaysThinkingEnabled": true,
   "hooks": {
     "PostToolUse": [
       {
@@ -45,5 +26,24 @@
         ]
       }
     ]
-  }
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh"
+  },
+  "extraKnownMarketplaces": {
+    "owt-ai-marketplace": {
+      "source": {
+        "source": "git",
+        "url": "git@github.com:openwt/OWTAIMarketplace.git"
+      }
+    },
+    "claude-code-templates": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/davila7/claude-code-templates.git"
+      }
+    }
+  },
+  "alwaysThinkingEnabled": true
 }

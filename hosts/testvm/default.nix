@@ -13,7 +13,7 @@
 
   nixpkgs.hostPlatform = "x86_64-linux";
   networking.hostName = "testvm";
-  networking.hostId = "84168d59"; # Required for ZFS (hex of pool's hostid)
+  networking.hostId = "1a71df94"; # cut -c-8 </proc/sys/kernel/random/uuid
   system.stateVersion = "25.05";
 
   # Bootloader

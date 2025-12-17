@@ -20,7 +20,10 @@
           modules = [
             {
               nixpkgs.config.allowUnfree = true;
-              nixpkgs.overlays = [ (import ../packages/default.nix) ];
+              nixpkgs.overlays = [
+                (import ../packages/default.nix)
+                inputs.nix-cachyos-kernel.overlays.default
+              ];
             }
             inputs.disko.nixosModules.disko
             ../hosts/${name}

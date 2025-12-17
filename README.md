@@ -50,7 +50,6 @@ nixos-install --flake /home/nixos/nixos-config#testvm --option 'extra-substitute
 
 cp -r /home/nixos/nixos-config /mnt/var/persistent
 
-exit
 reboot
 ```
 

@@ -67,18 +67,39 @@ in
           exit 0
         }
 
-        # Create sealed key object with PCR policy
-        ${pkgs.tpm2-tools}/bin/tpm2_create \
-          -C primary.ctx \
-          -g sha256 \
-          -G keyedhash \
-          -r key.priv \
-          -u key.pub \
-          -i zfs.key \
-          -L "pcr:sha256:${toString cfg.pcrIndex}" 2>/dev/null || {
-          echo "Warning: Failed to seal key to TPM"
-          exit 0
+        # Create PCR policy for sealing
+        ${pkgs.tpm2-tools}/bin/tpm2_createpolicy \
+          --policy-pcr \
+          -l "sha256:${toString cfg.pcrIndex}" \
+          -L pcr.policy 2>/dev/null || {
+          echo "Warning: Failed to create PCR policy, sealing without PCR binding"
+          # Seal without PCR policy as fallback
+          ${pkgs.tpm2-tools}/bin/tpm2_create \
+            -C primary.ctx \
+            -g sha256 \
+            -G keyedhash \
+            -r key.priv \
+            -u key.pub \
+            -i zfs.key 2>/dev/null || {
+            echo "Warning: Failed to seal key to TPM"
+            exit 0
+          }
         }
+
+        # Create sealed key object with PCR policy if available
+        if [ -f pcr.policy ]; then
+          ${pkgs.tpm2-tools}/bin/tpm2_create \
+            -C primary.ctx \
+            -g sha256 \
+            -G keyedhash \
+            -r key.priv \
+            -u key.pub \
+            -i zfs.key \
+            -L pcr.policy 2>/dev/null || {
+            echo "Warning: Failed to seal key with PCR policy"
+            exit 0
+          }
+        fi
 
         # Load key into TPM
         ${pkgs.tpm2-tools}/bin/tpm2_load \
@@ -98,17 +119,30 @@ in
           echo "Warning: Failed to persist key handle"
         }
 
-        # Also store the raw key for initial dataset creation
+        # Store the raw key for dataset creation
         ${pkgs.coreutils}/bin/mkdir -p /run/keys
         ${pkgs.coreutils}/bin/cp zfs.key /run/keys/zfs-encryption-key
         ${pkgs.coreutils}/bin/chmod 600 /run/keys/zfs-encryption-key
+
+        # Create the encrypted ZFS dataset
+        echo "Creating encrypted ZFS dataset ${cfg.dataset}..."
+        if ${config.boot.zfs.package}/bin/zfs create \
+             -o encryption=aes-256-gcm \
+             -o keyformat=raw \
+             -o keylocation=file:///run/keys/zfs-encryption-key \
+             -o mountpoint=/var/encrypted \
+             ${cfg.dataset} 2>/dev/null; then
+          echo "Encrypted dataset ${cfg.dataset} created successfully"
+        else
+          echo "Warning: Failed to create encrypted dataset. It may already exist."
+        fi
 
         # Create marker file to indicate setup is complete
         ${pkgs.coreutils}/bin/touch "${cfg.keyFile}"
         ${pkgs.coreutils}/bin/chmod 644 "${cfg.keyFile}"
 
-        echo "TPM key sealing complete. Initial key available at /run/keys/zfs-encryption-key"
-        echo "Use this to manually create the encrypted dataset, then reboot."
+        echo "TPM key sealing and dataset creation complete!"
+        echo "The dataset will auto-unlock on subsequent boots using TPM."
       fi
     '';
   };

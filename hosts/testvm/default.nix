@@ -54,22 +54,27 @@
     '';
 
     postDeviceCommands = ''
-      echo "ZFS TPM Unlock: Attempting to unseal encryption key..."
+      # Only try to unseal if the encrypted dataset exists
+      if zfs list zroot/data/encrypted 2>/dev/null; then
+        echo "ZFS TPM Unlock: Attempting to unseal encryption key..."
 
-      if ${pkgs.tpm2-tools}/bin/tpm2_unseal \
-           -c 0x81010001 \
-           -p "pcr:sha256:15" \
-           -o /run/zfs-key 2>/dev/null; then
-        echo "ZFS TPM Unlock: TPM unseal successful"
-        chmod 600 /run/zfs-key
+        # Try to unseal from TPM persistent handle
+        if ${pkgs.tpm2-tools}/bin/tpm2_unseal \
+             -c 0x81010001 \
+             -o /run/zfs-key 2>/dev/null; then
+          echo "ZFS TPM Unlock: TPM unseal successful"
+          chmod 600 /run/zfs-key
+        else
+          echo "ZFS TPM Unlock: TPM unseal failed, requesting password..."
+          echo -n "Enter ZFS encryption password: "
+          read -s password
+          echo
+          echo -n "$password" > /run/zfs-key
+          chmod 600 /run/zfs-key
+          unset password
+        fi
       else
-        echo "ZFS TPM Unlock: TPM unseal failed, requesting password..."
-        echo -n "Enter ZFS encryption password: "
-        read -s password
-        echo
-        echo -n "$password" > /run/zfs-key
-        chmod 600 /run/zfs-key
-        unset password
+        echo "ZFS TPM Unlock: Encrypted dataset not yet created, skipping"
       fi
     '';
   };
@@ -86,7 +91,7 @@
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
-      ExecStart = "${pkgs.bash}/bin/bash -c '${config.boot.zfs.package}/bin/zfs load-key -L file:///run/zfs-key zroot/data/encrypted || true'";
+      ExecStart = "${pkgs.bash}/bin/bash -c 'if ${config.boot.zfs.package}/bin/zfs list zroot/data/encrypted 2>/dev/null; then ${config.boot.zfs.package}/bin/zfs load-key -L file:///run/zfs-key zroot/data/encrypted || true; fi'";
     };
   };
 

@@ -54,7 +54,16 @@
     '';
 
     postDeviceCommands = ''
-      # Only try to unseal if the encrypted dataset exists
+      # Wait for ZFS pool to be imported
+      echo "ZFS TPM Unlock: Waiting for ZFS pool import..."
+      for i in $(seq 1 10); do
+        if zpool list zroot >/dev/null 2>&1; then
+          break
+        fi
+        sleep 1
+      done
+
+      # Check if encrypted dataset exists
       if zfs list zroot/data/encrypted 2>/dev/null; then
         echo "ZFS TPM Unlock: Attempting to unseal encryption key..."
 
@@ -74,7 +83,7 @@
           unset password
         fi
       else
-        echo "ZFS TPM Unlock: Encrypted dataset not yet created, skipping"
+        echo "ZFS TPM Unlock: Encrypted dataset not found, skipping"
       fi
     '';
   };
@@ -83,15 +92,15 @@
   boot.zfs.requestEncryptionCredentials = false;
 
   # Systemd service to load ZFS key and mount encrypted dataset
-  systemd.services.zfs-load-key = {
+  systemd.services.zfs-load-encrypted = {
     description = "Load ZFS encryption key and mount encrypted dataset";
     after = [ "zfs-import.target" ];
-    before = [ "zfs-mount.service" ];
-    wantedBy = [ "zfs-mount.service" ];
+    before = [ "local-fs.target" ];
+    wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
-      ExecStart = "${pkgs.bash}/bin/bash -c 'if ${config.boot.zfs.package}/bin/zfs list zroot/data/encrypted 2>/dev/null; then ${config.boot.zfs.package}/bin/zfs load-key -L file:///run/zfs-key zroot/data/encrypted && ${config.boot.zfs.package}/bin/zfs mount zroot/data/encrypted || true; fi'";
+      ExecStart = "${pkgs.bash}/bin/bash -c 'if ${config.boot.zfs.package}/bin/zfs list zroot/data/encrypted 2>/dev/null; then ${config.boot.zfs.package}/bin/zfs load-key zroot/data/encrypted && ${config.boot.zfs.package}/bin/zfs mount zroot/data/encrypted || true; fi'";
     };
   };
 

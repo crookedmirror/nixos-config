@@ -33,6 +33,12 @@ in
       default = "0x81010001";
       description = "TPM persistent handle for the sealed key";
     };
+
+    fallbackPassword = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+      description = "Optional password for manual fallback (stored in plain text in nix store!)";
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -129,17 +135,23 @@ in
         }
 
         # Persist the key to a persistent handle
+        # First, try to remove existing handle if it exists
+        ${pkgs.tpm2-tools}/bin/tpm2_evictcontrol \
+          -C o \
+          -c ${cfg.persistentHandle} 2>/dev/null || true
+
+        # Now persist our new key
         ${pkgs.tpm2-tools}/bin/tpm2_evictcontrol \
           -C o \
           -c $WORKDIR/key.ctx \
           ${cfg.persistentHandle} 2>&1 || {
-          echo "Warning: Failed to persist key handle"
+          echo "ERROR: Failed to persist key handle to ${cfg.persistentHandle}"
+          exit 1
         }
 
         # Store the raw key for dataset creation
-        ${pkgs.coreutils}/bin/mkdir -p /run/keys
-        ${pkgs.coreutils}/bin/cp $WORKDIR/zfs.key /run/keys/zfs-encryption-key
-        ${pkgs.coreutils}/bin/chmod 600 /run/keys/zfs-encryption-key
+        ${pkgs.coreutils}/bin/cp $WORKDIR/zfs.key /run/zfs-key
+        ${pkgs.coreutils}/bin/chmod 600 /run/zfs-key
 
         # Create the encrypted ZFS dataset
         echo "Creating encrypted ZFS dataset ${cfg.dataset}..."
@@ -153,7 +165,7 @@ in
           if ${config.boot.zfs.package}/bin/zfs create \
                -o encryption=aes-256-gcm \
                -o keyformat=raw \
-               -o keylocation=file:///run/keys/zfs-encryption-key \
+               -o keylocation=file:///run/zfs-key \
                -o mountpoint=/var/encrypted \
                -o canmount=noauto \
                ${cfg.dataset} 2>&1; then

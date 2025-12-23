@@ -18,8 +18,22 @@ in
 
     pcrIndex = lib.mkOption {
       type = lib.types.int;
-      default = 15;
-      description = "TPM PCR index to seal the key against";
+      default = 7;
+      description = ''
+        TPM PCR index to seal the key against.
+        PCR 7 = Secure Boot policy (recommended for boot chain integrity)
+        PCR 0-7 = Full boot chain verification
+      '';
+    };
+
+    expectedPcr15 = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+      description = ''
+        Expected SHA256 value of PCR 15 after key measurement.
+        Leave null for initial setup, then add the value shown during first boot.
+        This prevents filesystem confusion attacks.
+      '';
     };
 
     keyFile = lib.mkOption {
@@ -152,6 +166,20 @@ in
         # Store the raw key for dataset creation
         ${pkgs.coreutils}/bin/cp $WORKDIR/zfs.key /run/zfs-key
         ${pkgs.coreutils}/bin/chmod 600 /run/zfs-key
+
+        # Measure the key into PCR 15 for filesystem identity verification
+        echo "Measuring volume key into PCR 15 for security verification..."
+        KEY_HASH=$(${pkgs.coreutils}/bin/sha256sum /run/zfs-key | ${pkgs.coreutils}/bin/cut -d' ' -f1)
+        ${pkgs.tpm2-tools}/bin/tpm2_pcrextend 15:sha256=$KEY_HASH 2>&1 || {
+          echo "Warning: Failed to extend PCR 15"
+        }
+
+        # Display the expected PCR 15 value for user to add to config
+        CURRENT_PCR15=$(${pkgs.tpm2-tools}/bin/tpm2_pcrread sha256:15 2>/dev/null | ${pkgs.gnugrep}/bin/grep -oP 'sha256:\s+15:\s+0x\K[A-F0-9]+' || echo "FAILED")
+        echo "============================================"
+        echo "IMPORTANT: Add this to your configuration:"
+        echo "  boot.zfs.tpmUnlock.expectedPcr15 = \"$CURRENT_PCR15\";"
+        echo "============================================"
 
         # Create the encrypted ZFS dataset
         echo "Creating encrypted ZFS dataset ${cfg.dataset}..."

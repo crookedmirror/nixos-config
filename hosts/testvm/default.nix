@@ -33,7 +33,8 @@
   boot.zfs.tpmUnlock = {
     enable = true;
     dataset = "zroot/data/encrypted";
-    pcrIndex = 15;
+    pcrIndex = 7; # Secure Boot policy - verifies boot chain integrity
+    # expectedPcr15 = null; # Set this after first boot with the displayed value
   };
 
   # Initrd configuration for TPM unsealing
@@ -46,6 +47,7 @@
     extraUtilsCommands = ''
       copy_bin_and_libs ${pkgs.tpm2-tools}/bin/tpm2_unseal
       copy_bin_and_libs ${pkgs.tpm2-tools}/bin/tpm2_pcrread
+      copy_bin_and_libs ${pkgs.tpm2-tools}/bin/tpm2_pcrextend
 
       # Copy required libraries
       for lib in ${pkgs.tpm2-tss}/lib/libtss2-*.so*; do
@@ -53,39 +55,77 @@
       done
     '';
 
-    postDeviceCommands = ''
-      # Wait for ZFS pool to be imported
-      echo "ZFS TPM Unlock: Waiting for ZFS pool import..."
-      for i in $(seq 1 10); do
-        if zpool list zroot >/dev/null 2>&1; then
-          break
-        fi
-        sleep 1
-      done
+    postDeviceCommands =
+      let
+        expectedPcr = config.boot.zfs.tpmUnlock.expectedPcr15;
+        verifyPcr =
+          if expectedPcr != null then
+            ''
+              # Verify PCR 15 matches expected value (filesystem confusion attack prevention)
+              echo "ZFS Security: Verifying PCR 15 filesystem identity..."
+              CURRENT_PCR15=$(${pkgs.tpm2-tools}/bin/tpm2_pcrread sha256:15 2>/dev/null | grep -oP 'sha256:\s+15:\s+0x\K[A-F0-9]+' || echo "FAILED")
 
-      # Check if encrypted dataset exists
-      if zfs list zroot/data/encrypted 2>/dev/null; then
-        echo "ZFS TPM Unlock: Attempting to unseal encryption key..."
+              if [ "$CURRENT_PCR15" != "${expectedPcr}" ]; then
+                echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+                echo "SECURITY ALERT: PCR 15 MISMATCH DETECTED!"
+                echo "Expected: ${expectedPcr}"
+                echo "Got:      $CURRENT_PCR15"
+                echo "This may indicate a filesystem confusion attack."
+                echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+                echo "Dropping to emergency shell..."
+                /bin/sh
+                exit 1
+              fi
+              echo "ZFS Security: PCR 15 verification passed"
+            ''
+          else
+            ''
+              echo "ZFS Security: PCR 15 verification skipped (not configured yet)"
+            '';
+      in
+      ''
+        # Wait for ZFS pool to be imported
+        echo "ZFS TPM Unlock: Waiting for ZFS pool import..."
+        for i in $(seq 1 10); do
+          if zpool list zroot >/dev/null 2>&1; then
+            break
+          fi
+          sleep 1
+        done
 
-        # Try to unseal from TPM persistent handle
-        if ${pkgs.tpm2-tools}/bin/tpm2_unseal \
-             -c 0x81010001 \
-             -o /run/zfs-key 2>/dev/null; then
-          echo "ZFS TPM Unlock: TPM unseal successful"
-          chmod 600 /run/zfs-key
+        # Check if encrypted dataset exists
+        if zfs list zroot/data/encrypted 2>/dev/null; then
+          echo "ZFS TPM Unlock: Attempting to unseal encryption key..."
+
+          # Try to unseal from TPM persistent handle
+          if ${pkgs.tpm2-tools}/bin/tpm2_unseal \
+               -c 0x81010001 \
+               -o /run/zfs-key 2>/dev/null; then
+            echo "ZFS TPM Unlock: TPM unseal successful"
+            chmod 600 /run/zfs-key
+
+            # Measure the unsealed key into PCR 15
+            echo "ZFS Security: Measuring key into PCR 15..."
+            KEY_HASH=$(sha256sum /run/zfs-key | cut -d' ' -f1)
+            ${pkgs.tpm2-tools}/bin/tpm2_pcrextend 15:sha256=$KEY_HASH 2>/dev/null || {
+              echo "Warning: Failed to extend PCR 15"
+            }
+
+            ${verifyPcr}
+          else
+            echo "ZFS TPM Unlock: TPM unseal failed, requesting password..."
+            echo -n "Enter ZFS encryption password: "
+            read -s password
+            echo
+            echo -n "$password" > /run/zfs-key
+            chmod 600 /run/zfs-key
+            unset password
+            echo "Warning: PCR 15 verification skipped (manual password entry)"
+          fi
         else
-          echo "ZFS TPM Unlock: TPM unseal failed, requesting password..."
-          echo -n "Enter ZFS encryption password: "
-          read -s password
-          echo
-          echo -n "$password" > /run/zfs-key
-          chmod 600 /run/zfs-key
-          unset password
+          echo "ZFS TPM Unlock: Encrypted dataset not found, skipping"
         fi
-      else
-        echo "ZFS TPM Unlock: Encrypted dataset not found, skipping"
-      fi
-    '';
+      '';
   };
 
   # Don't auto-request credentials (we handle it manually)

@@ -6,3 +6,7 @@ locals.nix
 ssh-identities
 *.tar
 *.txt
+
+# testvm TPM state
+testvm-tpm/
+testvm-swtpm.sock

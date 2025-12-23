@@ -52,13 +52,3 @@ cp -r /home/nixos/nixos-config /mnt/var/persistent
 
 reboot
 ```
-
-#Installing this flake
-
-1. Load installation media
-1. clone this repository
-1. cope disko.nix to /tmp
-1. format dribes using disko
-1. copy nixos-config to /mnt
-1. execute nixos-install of this flake and using chaotics cache
-1. reboot, login as root and set password for main user

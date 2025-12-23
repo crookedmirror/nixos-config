@@ -65,6 +65,17 @@
             options.mountpoint = "legacy";
             mountpoint = "/var/persistent";
           };
+
+          "data/encrypted" = {
+            type = "zfs_fs";
+            options = {
+              mountpoint = "legacy";
+              encryption = "aes-256-gcm";
+              keyformat = "raw";
+              keylocation = "file:///run/zfs-key";
+            };
+            mountpoint = "/var/encrypted";
+          };
         };
       };
     };

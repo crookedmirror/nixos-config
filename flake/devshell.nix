@@ -24,6 +24,9 @@
           rage
           age-plugin-tpm
 
+          # TPM emulation for testvm
+          swtpm
+
           nix # Use the same nix as the one with nix-plugins
         ];
         commands = [

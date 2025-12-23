@@ -9,6 +9,7 @@
   imports = [
     ./hardware.nix
     ./disko.nix
+    ../../modules/zfs-tpm-unlock.nix
   ];
 
   nixpkgs.hostPlatform = "x86_64-linux";
@@ -22,6 +23,72 @@
 
   boot.kernelPackages = lib.mkOverride 99 pkgs.cachyosKernels.linuxPackages-cachyos-latest;
   boot.zfs.package = lib.mkOverride 99 config.boot.kernelPackages.zfs_cachyos;
+
+  boot.supportedFilesystems = [
+    "zfs"
+    "vfat"
+  ];
+
+  # ZFS TPM unlock configuration
+  boot.zfs.tpmUnlock = {
+    enable = true;
+    dataset = "zroot/data/encrypted";
+    pcrIndex = 15;
+  };
+
+  # Initrd configuration for TPM unsealing
+  boot.initrd = {
+    kernelModules = [
+      "tpm_tis"
+      "tpm_crb"
+    ];
+
+    extraUtilsCommands = ''
+      copy_bin_and_libs ${pkgs.tpm2-tools}/bin/tpm2_unseal
+      copy_bin_and_libs ${pkgs.tpm2-tools}/bin/tpm2_pcrread
+
+      # Copy required libraries
+      for lib in ${pkgs.tpm2-tss}/lib/libtss2-*.so*; do
+        copy_bin_and_libs $lib
+      done
+    '';
+
+    postDeviceCommands = ''
+      echo "ZFS TPM Unlock: Attempting to unseal encryption key..."
+
+      if ${pkgs.tpm2-tools}/bin/tpm2_unseal \
+           -c 0x81010001 \
+           -p "pcr:sha256:15" \
+           -o /run/zfs-key 2>/dev/null; then
+        echo "ZFS TPM Unlock: TPM unseal successful"
+        chmod 600 /run/zfs-key
+      else
+        echo "ZFS TPM Unlock: TPM unseal failed, requesting password..."
+        echo -n "Enter ZFS encryption password: "
+        read -s password
+        echo
+        echo -n "$password" > /run/zfs-key
+        chmod 600 /run/zfs-key
+        unset password
+      fi
+    '';
+  };
+
+  # Don't auto-request credentials (we handle it manually)
+  boot.zfs.requestEncryptionCredentials = false;
+
+  # Systemd service to load ZFS key
+  systemd.services.zfs-load-key = {
+    description = "Load ZFS encryption key";
+    after = [ "zfs-import.target" ];
+    before = [ "zfs-mount.service" ];
+    wantedBy = [ "zfs-mount.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = "${pkgs.bash}/bin/bash -c '${config.boot.zfs.package}/bin/zfs load-key -L file:///run/zfs-key zroot/data/encrypted || true'";
+    };
+  };
 
   specialisation.safe.configuration = {
     boot.kernelPackages = lib.mkOverride 98 pkgs.linuxPackages;
@@ -54,6 +121,11 @@
 
   services.zfs.trim.enable = false;
 
+  # TPM2 support
+  security.tpm2.enable = true;
+  security.tpm2.pkcs11.enable = true;
+  security.tpm2.tctiEnvironment.enable = true;
+
   services.openssh = {
     enable = true;
     settings.PermitRootLogin = "yes";
@@ -63,11 +135,12 @@
   environment.systemPackages = with pkgs; [
     vim
     git
+    tpm2-tools
   ];
 
   nix.settings.substituters = [
     "https://cache.garnix.io"
-    "https://attic.xuyh0120.win/lantian"
+    "https://attic.xuyh0120.win/lantian" # cache for cachyos kernel
   ];
   nix.settings.trusted-public-keys = [
     "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="

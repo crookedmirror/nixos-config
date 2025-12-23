@@ -175,7 +175,18 @@ in
         }
 
         # Display the expected PCR 15 value for user to add to config
-        CURRENT_PCR15=$(${pkgs.tpm2-tools}/bin/tpm2_pcrread sha256:15 2>/dev/null | ${pkgs.gnugrep}/bin/grep -oP 'sha256:\s+15:\s+0x\K[A-F0-9]+' || echo "FAILED")
+        echo "Reading PCR 15 value..."
+        ${pkgs.tpm2-tools}/bin/tpm2_pcrread sha256:15 > /tmp/pcr15-output.txt 2>&1 || true
+
+        # Try multiple parsing approaches
+        CURRENT_PCR15=$(${pkgs.gnugrep}/bin/grep -oP 'sha256:\s+15:\s+0x\K[A-F0-9]+' /tmp/pcr15-output.txt 2>/dev/null || \
+                        ${pkgs.gnugrep}/bin/grep -oP '15:\s+0x\K[A-F0-9]+' /tmp/pcr15-output.txt 2>/dev/null || \
+                        ${pkgs.gnugrep}/bin/grep -oP '0x[A-F0-9]{64}' /tmp/pcr15-output.txt 2>/dev/null || \
+                        echo "FAILED")
+
+        echo "============================================"
+        echo "PCR 15 read result:"
+        ${pkgs.coreutils}/bin/cat /tmp/pcr15-output.txt
         echo "============================================"
         echo "IMPORTANT: Add this to your configuration:"
         echo "  boot.zfs.tpmUnlock.expectedPcr15 = \"$CURRENT_PCR15\";"

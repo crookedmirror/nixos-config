@@ -82,41 +82,51 @@ in
         if ${pkgs.tpm2-tools}/bin/tpm2_createpolicy \
           --policy-pcr \
           -l "sha256:${toString cfg.pcrIndex}" \
-          -L pcr.policy 2>/dev/null; then
+          -L $WORKDIR/pcr.policy 2>/dev/null; then
           echo "PCR policy created, sealing key with PCR ${toString cfg.pcrIndex}"
-          # Seal with PCR policy
+          # Seal with PCR policy using explicit paths
           ${pkgs.tpm2-tools}/bin/tpm2_create \
-            -C primary.ctx \
+            -C $WORKDIR/primary.ctx \
             -g sha256 \
             -G keyedhash \
-            -r key.priv \
-            -u key.pub \
-            -i zfs.key \
-            -L pcr.policy 2>/dev/null || {
-            echo "Warning: Failed to seal key with PCR policy"
-            exit 0
+            -r $WORKDIR/key.priv \
+            -u $WORKDIR/key.pub \
+            -i $WORKDIR/zfs.key \
+            -L $WORKDIR/pcr.policy 2>&1 || {
+            echo "Warning: Failed to seal key with PCR policy, trying without PCR..."
+            # Try without PCR as immediate fallback
+            ${pkgs.tpm2-tools}/bin/tpm2_create \
+              -C $WORKDIR/primary.ctx \
+              -g sha256 \
+              -G keyedhash \
+              -r $WORKDIR/key.priv \
+              -u $WORKDIR/key.pub \
+              -i $WORKDIR/zfs.key 2>&1 || {
+              echo "Error: Failed to seal key to TPM even without PCR"
+              exit 0
+            }
           }
         else
           echo "Warning: Failed to create PCR policy, sealing without PCR binding"
           # Seal without PCR policy as fallback
           ${pkgs.tpm2-tools}/bin/tpm2_create \
-            -C primary.ctx \
+            -C $WORKDIR/primary.ctx \
             -g sha256 \
             -G keyedhash \
-            -r key.priv \
-            -u key.pub \
-            -i zfs.key 2>/dev/null || {
-            echo "Warning: Failed to seal key to TPM"
+            -r $WORKDIR/key.priv \
+            -u $WORKDIR/key.pub \
+            -i $WORKDIR/zfs.key 2>&1 || {
+            echo "Error: Failed to seal key to TPM"
             exit 0
           }
         fi
 
         # Load key into TPM
         ${pkgs.tpm2-tools}/bin/tpm2_load \
-          -C primary.ctx \
-          -r key.priv \
-          -u key.pub \
-          -c key.ctx 2>/dev/null || {
+          -C $WORKDIR/primary.ctx \
+          -r $WORKDIR/key.priv \
+          -u $WORKDIR/key.pub \
+          -c $WORKDIR/key.ctx 2>&1 || {
           echo "Warning: Failed to load key into TPM"
           exit 0
         }
@@ -124,14 +134,14 @@ in
         # Persist the key to a persistent handle
         ${pkgs.tpm2-tools}/bin/tpm2_evictcontrol \
           -C o \
-          -c key.ctx \
-          ${cfg.persistentHandle} 2>/dev/null || {
+          -c $WORKDIR/key.ctx \
+          ${cfg.persistentHandle} 2>&1 || {
           echo "Warning: Failed to persist key handle"
         }
 
         # Store the raw key for dataset creation
         ${pkgs.coreutils}/bin/mkdir -p /run/keys
-        ${pkgs.coreutils}/bin/cp zfs.key /run/keys/zfs-encryption-key
+        ${pkgs.coreutils}/bin/cp $WORKDIR/zfs.key /run/keys/zfs-encryption-key
         ${pkgs.coreutils}/bin/chmod 600 /run/keys/zfs-encryption-key
 
         # Create the encrypted ZFS dataset

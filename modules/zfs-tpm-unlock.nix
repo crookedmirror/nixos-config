@@ -84,11 +84,10 @@ in
           -l "sha256:${toString cfg.pcrIndex}" \
           -L $WORKDIR/pcr.policy 2>/dev/null; then
           echo "PCR policy created, sealing key with PCR ${toString cfg.pcrIndex}"
-          # Seal with PCR policy using explicit paths
+          # Seal with PCR policy - don't use -G when using -i (sealed data)
           ${pkgs.tpm2-tools}/bin/tpm2_create \
             -C $WORKDIR/primary.ctx \
             -g sha256 \
-            -G keyedhash \
             -r $WORKDIR/key.priv \
             -u $WORKDIR/key.pub \
             -i $WORKDIR/zfs.key \
@@ -98,7 +97,6 @@ in
             ${pkgs.tpm2-tools}/bin/tpm2_create \
               -C $WORKDIR/primary.ctx \
               -g sha256 \
-              -G keyedhash \
               -r $WORKDIR/key.priv \
               -u $WORKDIR/key.pub \
               -i $WORKDIR/zfs.key 2>&1 || {
@@ -112,7 +110,6 @@ in
           ${pkgs.tpm2-tools}/bin/tpm2_create \
             -C $WORKDIR/primary.ctx \
             -g sha256 \
-            -G keyedhash \
             -r $WORKDIR/key.priv \
             -u $WORKDIR/key.pub \
             -i $WORKDIR/zfs.key 2>&1 || {

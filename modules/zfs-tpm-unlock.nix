@@ -51,19 +51,30 @@ in
       if [ ! -f "${cfg.keyFile}" ]; then
         echo "Setting up ZFS TPM encryption key..."
 
-        # Create temporary directory for TPM operations in a location that exists
-        TMPDIR=$(${pkgs.coreutils}/bin/mktemp -d -p /tmp)
-        trap "${pkgs.coreutils}/bin/rm -rf $TMPDIR" EXIT
+        # Ensure /tmp exists (needed during nixos-install in chroot)
+        ${pkgs.coreutils}/bin/mkdir -p /tmp
 
-        cd $TMPDIR
+        # Create temporary directory for TPM operations
+        WORKDIR=$(${pkgs.coreutils}/bin/mktemp -d -p /tmp)
+        trap "${pkgs.coreutils}/bin/rm -rf $WORKDIR" EXIT
+
+        cd $WORKDIR
+
+        # Check if TPM is available
+        if [ ! -e /dev/tpm0 ] && [ ! -e /dev/tpmrm0 ]; then
+          echo "TPM device not found. This is expected during nixos-install."
+          echo "TPM sealing will be performed on first boot of the installed system."
+          # Create marker to retry on next activation
+          exit 0
+        fi
 
         # Generate 32-byte random key for ZFS
         ${pkgs.coreutils}/bin/dd if=/dev/urandom of=zfs.key bs=32 count=1 2>/dev/null
 
         # Create primary key in owner hierarchy
         ${pkgs.tpm2-tools}/bin/tpm2_createprimary -C o -g sha256 -G rsa -c primary.ctx 2>/dev/null || {
-          echo "Warning: Failed to create TPM primary key. TPM may not be available yet."
-          echo "You'll need to seal the key manually after first boot."
+          echo "Warning: Failed to create TPM primary key. TPM may not be available."
+          echo "Skipping TPM sealing, will retry on next boot."
           exit 0
         }
 

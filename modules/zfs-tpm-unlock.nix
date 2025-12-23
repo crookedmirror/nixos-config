@@ -51,8 +51,8 @@ in
       if [ ! -f "${cfg.keyFile}" ]; then
         echo "Setting up ZFS TPM encryption key..."
 
-        # Create temporary directory for TPM operations
-        TMPDIR=$(${pkgs.coreutils}/bin/mktemp -d)
+        # Create temporary directory for TPM operations in a location that exists
+        TMPDIR=$(${pkgs.coreutils}/bin/mktemp -d -p /tmp)
         trap "${pkgs.coreutils}/bin/rm -rf $TMPDIR" EXIT
 
         cd $TMPDIR
@@ -68,10 +68,24 @@ in
         }
 
         # Create PCR policy for sealing
-        ${pkgs.tpm2-tools}/bin/tpm2_createpolicy \
+        if ${pkgs.tpm2-tools}/bin/tpm2_createpolicy \
           --policy-pcr \
           -l "sha256:${toString cfg.pcrIndex}" \
-          -L pcr.policy 2>/dev/null || {
+          -L pcr.policy 2>/dev/null; then
+          echo "PCR policy created, sealing key with PCR ${toString cfg.pcrIndex}"
+          # Seal with PCR policy
+          ${pkgs.tpm2-tools}/bin/tpm2_create \
+            -C primary.ctx \
+            -g sha256 \
+            -G keyedhash \
+            -r key.priv \
+            -u key.pub \
+            -i zfs.key \
+            -L pcr.policy 2>/dev/null || {
+            echo "Warning: Failed to seal key with PCR policy"
+            exit 0
+          }
+        else
           echo "Warning: Failed to create PCR policy, sealing without PCR binding"
           # Seal without PCR policy as fallback
           ${pkgs.tpm2-tools}/bin/tpm2_create \
@@ -82,21 +96,6 @@ in
             -u key.pub \
             -i zfs.key 2>/dev/null || {
             echo "Warning: Failed to seal key to TPM"
-            exit 0
-          }
-        }
-
-        # Create sealed key object with PCR policy if available
-        if [ -f pcr.policy ]; then
-          ${pkgs.tpm2-tools}/bin/tpm2_create \
-            -C primary.ctx \
-            -g sha256 \
-            -G keyedhash \
-            -r key.priv \
-            -u key.pub \
-            -i zfs.key \
-            -L pcr.policy 2>/dev/null || {
-            echo "Warning: Failed to seal key with PCR policy"
             exit 0
           }
         fi
@@ -126,15 +125,27 @@ in
 
         # Create the encrypted ZFS dataset
         echo "Creating encrypted ZFS dataset ${cfg.dataset}..."
-        if ${config.boot.zfs.package}/bin/zfs create \
-             -o encryption=aes-256-gcm \
-             -o keyformat=raw \
-             -o keylocation=file:///run/keys/zfs-encryption-key \
-             -o mountpoint=/var/encrypted \
-             ${cfg.dataset} 2>/dev/null; then
-          echo "Encrypted dataset ${cfg.dataset} created successfully"
+
+        # Check if dataset already exists
+        if ! ${config.boot.zfs.package}/bin/zfs list ${cfg.dataset} 2>/dev/null; then
+          # Create mountpoint directory
+          ${pkgs.coreutils}/bin/mkdir -p /var/encrypted
+
+          # Create the encrypted dataset (don't auto-mount during activation)
+          if ${config.boot.zfs.package}/bin/zfs create \
+               -o encryption=aes-256-gcm \
+               -o keyformat=raw \
+               -o keylocation=file:///run/keys/zfs-encryption-key \
+               -o mountpoint=/var/encrypted \
+               -o canmount=noauto \
+               ${cfg.dataset} 2>&1; then
+            echo "Encrypted dataset ${cfg.dataset} created successfully"
+            echo "Dataset will be mounted on next boot"
+          else
+            echo "Warning: Failed to create encrypted dataset."
+          fi
         else
-          echo "Warning: Failed to create encrypted dataset. It may already exist."
+          echo "Dataset ${cfg.dataset} already exists, skipping creation"
         fi
 
         # Create marker file to indicate setup is complete

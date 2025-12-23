@@ -82,16 +82,16 @@
   # Don't auto-request credentials (we handle it manually)
   boot.zfs.requestEncryptionCredentials = false;
 
-  # Systemd service to load ZFS key
+  # Systemd service to load ZFS key and mount encrypted dataset
   systemd.services.zfs-load-key = {
-    description = "Load ZFS encryption key";
+    description = "Load ZFS encryption key and mount encrypted dataset";
     after = [ "zfs-import.target" ];
     before = [ "zfs-mount.service" ];
     wantedBy = [ "zfs-mount.service" ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
-      ExecStart = "${pkgs.bash}/bin/bash -c 'if ${config.boot.zfs.package}/bin/zfs list zroot/data/encrypted 2>/dev/null; then ${config.boot.zfs.package}/bin/zfs load-key -L file:///run/zfs-key zroot/data/encrypted || true; fi'";
+      ExecStart = "${pkgs.bash}/bin/bash -c 'if ${config.boot.zfs.package}/bin/zfs list zroot/data/encrypted 2>/dev/null; then ${config.boot.zfs.package}/bin/zfs load-key -L file:///run/zfs-key zroot/data/encrypted && ${config.boot.zfs.package}/bin/zfs mount zroot/data/encrypted || true; fi'";
     };
   };
 

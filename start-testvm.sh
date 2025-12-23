@@ -24,7 +24,7 @@ qemu-system-x86_64 \
   -smp 4 \
   -cpu host \
   -boot order=d,menu=on \
-  -drive if=pflash,format=raw,readonly=on,file=/usr/share/OVMF/OVMF_CODE_4M.fd \
+  -drive if=pflash,format=raw,readonly=on,file=/usr/share/OVMF/OVMF_CODE.secboot.fd \
   -drive if=pflash,format=raw,file=./testvm-OVMF_VARS.fd \
   -drive file=testvm.qcow2,if=none,id=drive0,format=qcow2 \
   -device virtio-blk-pci,drive=drive0,serial=testvm-main \

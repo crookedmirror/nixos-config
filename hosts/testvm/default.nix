@@ -10,6 +10,7 @@
     ./hardware.nix
     ./disko.nix
     ../../modules/zfs-tpm-unlock.nix
+    inputs.lanzaboote.nixosModules.lanzaboote
   ];
 
   nixpkgs.hostPlatform = "x86_64-linux";
@@ -18,7 +19,12 @@
   networking.hostName = "testvm";
   networking.hostId = "1a71df94"; # cut -c-8 </proc/sys/kernel/random/uuid
 
-  boot.loader.systemd-boot.enable = true;
+  # Secure Boot with lanzaboote
+  boot.loader.systemd-boot.enable = lib.mkForce false;
+  boot.lanzaboote = {
+    enable = true;
+    pkiBundle = "/etc/secureboot";
+  };
   boot.loader.efi.canTouchEfiVariables = true;
 
   boot.kernelPackages = lib.mkOverride 99 pkgs.cachyosKernels.linuxPackages-cachyos-latest;
@@ -34,9 +40,8 @@
     enable = true;
     dataset = "zroot/data/encrypted";
     pcrIndex = 7; # Secure Boot policy - verifies boot chain integrity
-    # expectedPcr15 = null; # Set this after first boot with the displayed value
+    expectedPcr15 = "800DF97CA7A6A9892884DC274F62A9F02C98B8C811D1D910B7D73102017492A8"; # Set this after first boot with the displayed value
   };
-
   # Initrd configuration for TPM unsealing
   boot.initrd = {
     kernelModules = [
@@ -190,6 +195,7 @@
     vim
     git
     tpm2-tools
+    sbctl # Secure Boot key management
   ];
 
   nix.settings.substituters = [

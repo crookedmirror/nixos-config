@@ -20,6 +20,8 @@
     treefmt-nix.url = "github:numtide/treefmt-nix";
     pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
     nixgl.url = "github:nix-community/nixGL";
+    lanzaboote.url = "github:nix-community/lanzaboote";
+    lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
 
     spicetify.url = "github:Gerg-L/spicetify-nix";
     ayugram-desktop.url = "github:ndfined-crp/ayugram-desktop/release";

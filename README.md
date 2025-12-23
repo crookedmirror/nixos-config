@@ -46,7 +46,9 @@ ssh -p 2224 nixos@localhost
 git clone https://github.com/crookedmirror/nixos-config
 sudo -i
 nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko /home/nixos/nixos-config/hosts/testvm/disko.nix
-nixos-install --flake /home/nixos/nixos-config#testvm --option 'extra-substituters' 'https://chaotic-nyx.cachix.org/' --option extra-trusted-public-keys "chaotic-nyx.cachix.org-1:HfnXSw4pj95iI/n17rIDy40agHj12WfF+Gqk6SonIT8="
+nixos-install --flake /home/nixos/nixos-config#testvm \
+  --option 'extra-substituters' 'https://cache.garnix.io https://attic.xuyh0120.win/lantian' \
+  --option 'extra-trusted-public-keys' 'cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g= lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc='
 
 cp -r /home/nixos/nixos-config /mnt/var/persistent
 

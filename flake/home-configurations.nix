@@ -13,7 +13,10 @@
         extraSpecialArgs = {
           inherit inputs;
           inherit (config) globals;
-          overlays = [ (import ../packages/default.nix) ];
+          overlays = [
+            (import ../packages/default.nix)
+            inputs.claude-code.overlays.default
+          ];
           lib = inputs.nixpkgs.lib.extend (
             final: prev: {
               hm = inputs.home-manager.lib.hm;

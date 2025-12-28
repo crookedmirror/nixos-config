@@ -23,6 +23,7 @@
               nixpkgs.overlays = [
                 (import ../packages/default.nix)
                 inputs.nix-cachyos-kernel.overlays.default
+                inputs.claude-code.overlays.default
               ];
             }
             inputs.disko.nixosModules.disko

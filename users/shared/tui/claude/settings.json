@@ -43,7 +43,16 @@
         "source": "git",
         "url": "https://github.com/davila7/claude-code-templates.git"
       }
+    },
+    "claude-marketplace": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/dashed/claude-marketplace.git"
+      }
     }
+  },
+  "enabledPlugins": {
+    "fzf@alberto-marketplace": true
   },
   "alwaysThinkingEnabled": true
 }

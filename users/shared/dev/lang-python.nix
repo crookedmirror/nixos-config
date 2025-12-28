@@ -2,7 +2,7 @@
 let
   python-final = pkgs.python314.withPackages (
     ps: with ps; [
-      uv
+      #uv
     ]
   );
 in
@@ -14,6 +14,7 @@ in
     pipx
     pipenv
     poetry
+    uv
   ];
 
   # adds ~/.local/bin folder to the PATH env var

@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "nixos": {
+      "type": "stdio",
+      "command": "/home/jarvis/.nix-profile/bin/uvx",
+      "args": ["mcp-nixos"]
+    }
+  }
+}

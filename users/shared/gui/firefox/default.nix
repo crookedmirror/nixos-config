@@ -9,6 +9,7 @@
       "privacy.sanitize.sanitizeOnShutdown" = false;
       "browser.startup.page" = 3;
       "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+      "privacy.resistFingerprinting.exemptedDomains" = "claude.ai";
     };
     profiles.default.extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
       ublock-origin

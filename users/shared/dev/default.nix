@@ -6,5 +6,6 @@
     ./lang-web.nix
     ./lang-python.nix
     ./lang-misc.nix
+    ./android.nix
   ];
 }

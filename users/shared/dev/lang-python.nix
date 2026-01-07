@@ -1,6 +1,6 @@
 { lib, pkgs, ... }:
 let
-  python-final = pkgs.python314.withPackages (
+  python-final = pkgs.python311.withPackages (
     ps: with ps; [
       #uv
     ]

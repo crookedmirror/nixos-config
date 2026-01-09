@@ -1,7 +1,6 @@
 local lsp_utils = require "utils.lsp"
 local lazy_utils = require "utils.lazy"
 local format_utils = require "utils.format"
-local lsp_keymaps_utils = require "plugins.lsp.keymaps"
 local icons_constants = require "constants.icons"
 
 return {
@@ -163,29 +162,20 @@ return {
       -- setup lsp formatter
       format_utils.register(lsp_utils.formatter())
 
-      -- setup keymaps
-      lsp_utils.on_attach(function(client, buffer)
-        lsp_keymaps_utils.on_attach(client, buffer)
-      end)
-      lsp_utils.setup()
-      lsp_utils.on_dynamic_capability(lsp_keymaps_utils.on_attach)
-
       -- setup diagnostics
       vim.diagnostic.config(opts.diagnostics)
       lsp_utils.setup_mode_toggle(
         "diagnostics",
-        -- Disable function
         function()
           vim.diagnostic.config { underline = false }
         end,
-        -- Enable function
         function()
           vim.diagnostic.config { underline = true }
         end
       )
 
       -- setup folds
-      lsp_utils.on_supports_method("textDocument/foldingRange", function(client, buffer)
+      Snacks.util.lsp.on({ method = "textDocument/foldingRange" }, function()
         vim.wo.foldexpr = "v:lua.vim.lsp.foldexpr()"
       end)
 
@@ -202,6 +192,10 @@ return {
         or {} --[[ @as string[] ]]
       ---@return boolean? exclude automatic setup
       local function configure(server)
+        -- skip "*" as it's handled separately for global config
+        if server == "*" then
+          return true
+        end
         local sopts = opts.servers[server]
         sopts = sopts == true and {} or (not sopts) and { enabled = false } or sopts --[[@as lazyvim.lsp.Config]]
         if sopts.enabled == false then

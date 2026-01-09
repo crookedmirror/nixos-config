@@ -19,7 +19,7 @@ return {
         -- everything below is from plugins/lang-*.lua
         -- TODO: remove once got rid of bloated LazyVim
         -- NOTE: maybe there is chance to override it at the start of LazyVim
-        "d2",
+        -- NOTE: "d2" is handled by tree-sitter-d2 plugin, not nvim-treesitter
         "json",
         "lua",
         "markdown",

@@ -48,20 +48,29 @@ M.formatter = function(opts)
   return lang_utils.tbl_merge(ret, opts)
 end
 
-M.on_attach = function(...)
-  return require("lazyvim.util.lsp").on_attach(...)
+M.keymap_set = function(...)
+  return require("lazyvim.plugins.lsp.keymaps").set(...)
 end
 
-M.on_supports_method = function(...)
-  return require("lazyvim.util.lsp").on_supports_method(...)
+M.toggle_inlay_hints = function(bufnr, state)
+  if bufnr == nil then
+    bufnr = 0
+  end
+  if state == nil then
+    state = not vim.lsp.inlay_hint.is_enabled { bufnr = bufnr }
+  end
+  vim.lsp.inlay_hint.enable(state, { bufnr = bufnr })
+  vim.api.nvim_buf_set_var(bufnr, "is_ih_enabled", state)
 end
 
-M.setup = function(...)
-  return require("lazyvim.util.lsp").setup(...)
-end
-
-M.on_dynamic_capability = function(...)
-  return require("lazyvim.util.lsp").on_dynamic_capability(...)
+M.diagnostic_goto = function(next, severity)
+  return function()
+    vim.diagnostic.jump {
+      count = (next and 1 or -1) * vim.v.count1,
+      severity = severity and vim.diagnostic.severity[severity] or nil,
+      float = true,
+    }
+  end
 end
 
 ---Sets up autocommands to enable/disable a feature based on mode.

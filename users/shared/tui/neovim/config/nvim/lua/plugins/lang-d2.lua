@@ -1,15 +1,12 @@
 return {
   {
-    "nvim-treesitter/nvim-treesitter",
-    optional = true,
-    opts = {
-      ensure_installed = { "d2" },
-    },
-  },
-  {
     "ravsii/tree-sitter-d2",
+    ft = "d2",
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     build = "make nvim-install",
+    config = function()
+      require("tree-sitter-d2").setup()
+    end,
   },
   {
     "kentchiu/d2.nvim",

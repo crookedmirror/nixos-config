@@ -3,5 +3,6 @@
     ./tmux
     ./claude
     ./neovim
+    ./opencode
   ];
 }

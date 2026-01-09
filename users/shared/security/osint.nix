@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   home.packages = with pkgs; [
-    jwhois
+    whois
     dig
     fierce
   ];

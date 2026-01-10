@@ -13,10 +13,20 @@ return {
       servers = {
         nixd = {
           mason = false,
+          root_dir = function(fname)
+            return require("lspconfig.util").root_pattern("flake.nix", ".git")(fname)
+              or vim.fn.getcwd()
+          end,
           settings = {
             nixd = {
+              nixpkgs = {
+                expr = "import <nixpkgs> {}",
+              },
               formatting = {
                 command = { "nixfmt" },
+              },
+              diagnostic = {
+                suppress = { "sema-extra-with" },
               },
             },
           },

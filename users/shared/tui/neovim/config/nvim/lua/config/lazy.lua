@@ -1,28 +1,26 @@
 local constants = require "constants"
+local lazyvim_utils = require "utils.lazyvim"
 
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then
   constants.first_install = true
-
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
   vim.fn.system { "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath }
-  _G.LazyVim = require "lazyvim.util"
-  -- Override LazyVim lsp utils
-  local lazyVimLspUtil = require "lazyvim.util.lsp"
-  lazyVimLspUtil.format = require("utils.lsp").format
-  lazyVimLspUtil.formatter = require("utils.lsp").formatter
 end
 vim.opt.rtp:prepend(lazypath)
-local lazyvim_path = vim.fn.stdpath "data" .. "/lazy/LazyVim"
-if vim.uv.fs_stat(lazyvim_path) then
-  vim.opt.rtp:prepend(lazyvim_path)
-end
+
+lazyvim_utils.load()
+lazyvim_utils.setup()
 
 require("lazy").setup {
   spec = {
-    -- add LazyVim and import its plugins
-    { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-    -- import/override with your plugins
+    { "folke/lazy.nvim", version = "*" },
+    {
+      "LazyVim/LazyVim",
+      lazy = false,
+      version = false,
+      priority = 10000,
+    },
     { import = "plugins" },
   },
   defaults = {

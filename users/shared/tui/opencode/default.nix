@@ -5,6 +5,10 @@
   ...
 }:
 {
+  home.shellAliases = {
+    occ = "opencode --continue";
+  };
+
   home.packages = with pkgs; [
     opencode
     bun # Required for OpenCode's plugin system

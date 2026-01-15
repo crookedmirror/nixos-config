@@ -1,10 +1,9 @@
 {
   "theme": "opencode",
   "plugin": [
-    "oh-my-opencode@3.0.0-beta.7",
+    "oh-my-opencode@3.0.0-beta.8",
     "@franlol/opencode-md-table-formatter@0.0.3"
   ],
   "autoupdate": false,
-  "default_agent": "orchestrator-sisyphus",
   "$schema": "https://opencode.ai/config.json"
 }

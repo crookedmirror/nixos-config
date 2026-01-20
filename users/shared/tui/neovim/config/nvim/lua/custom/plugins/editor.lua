@@ -1629,7 +1629,6 @@ return {
     opts = {
       date_format = "%a %d %b %Y",
       blame_options = { "-w" },
-      focus_blame = true, -- focus blame window
       merge_consecutive = true,
       commit_detail_view = function(commit_hash, row, file_path)
         vim.cmd("DiffviewOpen " .. commit_hash .. "^! --selected-file=" .. file_path)
@@ -1680,11 +1679,7 @@ return {
         return line_with_hl
       end,
       mappings = {
-        commit_info = "i",
-        stack_push = "<TAB>",
         stack_pop = { "<S-TAB>", "<BS>" },
-        show_commit = "<CR>",
-        close = "q",
       },
     },
     config = function(_, opts)

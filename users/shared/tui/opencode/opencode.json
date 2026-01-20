@@ -1,7 +1,7 @@
 {
   "theme": "opencode",
   "plugin": [
-    "oh-my-opencode@3.0.0-beta.9",
+    "oh-my-opencode@3.0.0-beta.11",
     "@franlol/opencode-md-table-formatter@0.0.3"
   ],
   "autoupdate": false,

@@ -10,15 +10,32 @@ let
   inherit (globals.theme) colors;
   inherit (globals.myuser) configDirectory;
   inherit (lib._custom) relativeSymlink;
+
+  # Scripts for tmux-server service (wochap-style)
+  start-tmux-server = pkgs.writeShellScriptBin "start-tmux-server" ''
+    # Kill any existing server and start fresh
+    ${pkgs.tmux}/bin/tmux kill-server 2>/dev/null || true
+    ${pkgs.tmux}/bin/tmux new-session -d -s tmux-server
+  '';
+
+  stop-tmux-server = pkgs.writeShellScriptBin "stop-tmux-server" ''
+    # Save sessions before stopping (resurrect will handle this via continuum)
+    ${pkgs.tmux}/bin/tmux kill-server 2>/dev/null || true
+  '';
 in
 {
+  home.packages = [ pkgs.sesh ];
+
   programs.tmux = {
     enable = true;
   };
 
   xdg.configFile = {
-    "tmux/plugins/tmux-sessionx".source =
-      "${pkgs.tmuxPlugins.tmux-sessionx}/share/tmux-plugins/sessionx";
+    "sesh/sesh.toml".source = relativeSymlink configDirectory ./config/sesh.toml;
+
+    "tmux/plugins/resurrect".source = "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect";
+    "tmux/plugins/continuum".source = "${pkgs.tmuxPlugins.continuum}/share/tmux-plugins/continuum";
+
     "tmux/plugins/catppuccin".source = inputs.catppuccin-tmux;
     "tmux/plugins/sensible".source = "${pkgs.tmuxPlugins.sensible}/share/tmux-plugins/sensible";
     "tmux/tmux.conf".text = ''
@@ -47,6 +64,28 @@ in
     "tmux/config.conf".source = relativeSymlink configDirectory ./config/config.conf;
     "tmux/plugins/status-bar/status-bar.tmux".source =
       relativeSymlink configDirectory ./config/status-bar.tmux;
+  };
+
+  # Systemd user service for tmux persistence across reboots (wochap-style)
+  # This ensures tmux server starts at login and survives logout
+  systemd.user.services.tmux-server = {
+    Unit = {
+      Description = "tmux server (session persistence)";
+      Documentation = "man:tmux(1)";
+      After = [ "default.target" ];
+    };
+    Service = {
+      Type = "forking";
+      Environment = [
+        "TERM=xterm-256color"
+        "COLORTERM=truecolor"
+      ];
+      ExecStart = "${start-tmux-server}/bin/start-tmux-server";
+      ExecStop = "${stop-tmux-server}/bin/stop-tmux-server";
+      Restart = "on-failure";
+      RestartSec = "2";
+    };
+    Install.WantedBy = [ "default.target" ];
   };
 
 }

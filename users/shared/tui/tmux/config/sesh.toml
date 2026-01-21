@@ -1,0 +1,15 @@
+[default_session]
+startup_command = ""
+
+[[session]]
+name = "nixos-config"
+path = "~/nixos-config"
+startup_command = "opencode --continue"
+windows = ["editor", "shell"]
+
+[[window]]
+name = "editor"
+startup_script = "nvim"
+
+[[window]]
+name = "shell"

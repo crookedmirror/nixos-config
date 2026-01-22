@@ -13,9 +13,11 @@ let
 
   # Scripts for tmux-server service (wochap-style)
   start-tmux-server = pkgs.writeShellScriptBin "start-tmux-server" ''
-    # Kill any existing server and start fresh
-    ${pkgs.tmux}/bin/tmux kill-server 2>/dev/null || true
-    ${pkgs.tmux}/bin/tmux new-session -d -s tmux-server
+    # Start tmux server if not running, ignore "duplicate session" errors
+    # (continuum auto-restore may create sessions during startup)
+    ${pkgs.tmux}/bin/tmux new-session -d -s 't̶m̶u̶x̶-̶s̶e̶r̶v̶e̶r̶' 2>/dev/null || true
+    # Verify server is running
+    ${pkgs.tmux}/bin/tmux list-sessions &>/dev/null
   '';
 
   stop-tmux-server = pkgs.writeShellScriptBin "stop-tmux-server" ''

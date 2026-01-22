@@ -19,7 +19,7 @@ in
     cursor=${lib._custom.unwrapHex colors.base} ${lib._custom.unwrapHex colors.green}
 
     [main]
-    shell=${pkgs.tmux}/bin/tmux new-session -A -s regular
+    shell=${pkgs.sesh}/bin/sesh connect nixos-config
     include=${lib._custom.relativeSymlink globals.myuser.configDirectory ./config/foot.ini}
   '';
 }

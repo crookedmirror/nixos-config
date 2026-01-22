@@ -1,15 +1,8 @@
 [default_session]
 startup_command = ""
 
+blacklist = ["t̶m̶u̶x̶-̶s̶e̶r̶v̶e̶r̶"]
+
 [[session]]
 name = "nixos-config"
 path = "~/nixos-config"
-startup_command = "opencode --continue"
-windows = ["editor", "shell"]
-
-[[window]]
-name = "editor"
-startup_script = "nvim"
-
-[[window]]
-name = "shell"

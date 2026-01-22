@@ -43,10 +43,6 @@ in
     sqlite-interactive
     zsh-completions
   ];
-  home.sessionVariables = {
-    "HISTDB_DEFAULT_TAB" = "Directory|Machine";
-    "HISTDB_FILE" = "${config.xdg.dataHome}/zsh/history.db";
-  };
   programs.zsh = {
     enable = true;
     dotDir = "${config.xdg.configHome}/zsh";
@@ -76,6 +72,9 @@ in
         source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
       '')
       ''
+        export HISTDB_DEFAULT_TAB="Directory"
+        export HISTDB_FILE="${config.xdg.dataHome}/zsh/history.db"
+
         source ${historyPlugin.src}/sqlite-history.zsh
         source ${relativeSymlink configDirectory ./config/config.zsh}
         source ${relativeSymlink configDirectory ./config/functions.zsh}
